@@ -2,10 +2,10 @@ package br.ufg.inf.integracao;
 
 import javax.xml.namespace.QName;
 import javax.xml.soap.MessageFactory;
-import javax.xml.soap.MimeHeaders;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPConnection;
 import javax.xml.soap.SOAPConnectionFactory;
+import javax.xml.soap.SOAPConstants;
 import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPHeader;
@@ -35,41 +35,17 @@ public class SigTap {
 	}
 	
 	 private static SOAPMessage createSOAPRequest() throws Exception {
-	        MessageFactory messageFactory = MessageFactory.newInstance();
+	        MessageFactory messageFactory = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL);
 	        SOAPMessage soapMessage = messageFactory.createMessage();
 	        SOAPPart soapPart = soapMessage.getSOAPPart();
 
 	        // SOAP Envelope
 	        SOAPEnvelope envelope = soapPart.getEnvelope();
-	        envelope.addNamespaceDeclaration("proc", "http://servicos.saude.gov.br/sigtap/v1/procedimentoservice");
-	        envelope.addNamespaceDeclaration("grup", "http://servicos.saude.gov.br/schema/sigtap/procedimento/nivelagregacao/v1/grupo");
-	        envelope.addNamespaceDeclaration("sub", "http://servicos.saude.gov.br/schema/sigtap/procedimento/nivelagregacao/v1/subgrupo");
 	        envelope.addNamespaceDeclaration("com", "http://servicos.saude.gov.br/schema/corporativo/v1/competencia");
+	        envelope.addNamespaceDeclaration("grup", "http://servicos.saude.gov.br/schema/sigtap/procedimento/nivelagregacao/v1/grupo");
 	        envelope.addNamespaceDeclaration("pag", "http://servicos.saude.gov.br/wsdl/mensageria/v1/paginacao");
-
-	        /*
-	       <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:proc="http://servicos.saude.gov.br/sigtap/v1/procedimentoservice" xmlns:grup="http://servicos.saude.gov.br/schema/sigtap/procedimento/nivelagregacao/v1/grupo" xmlns:sub="http://servicos.saude.gov.br/schema/sigtap/procedimento/nivelagregacao/v1/subgrupo" xmlns:com="http://servicos.saude.gov.br/schema/corporativo/v1/competencia" xmlns:pag="http://servicos.saude.gov.br/wsdl/mensageria/v1/paginacao">
-			<soap:Header>
-				<wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
-					<wsse:UsernameToken wsu:Id="Id-0001334008436683-000000002c4a1908-1" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
-					<wsse:Username>SIGTAP.PUBLICO</wsse:Username>
-					<wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">sigtap#2015public</wsse:Password>
-					</wsse:UsernameToken>
-				</wsse:Security>
-			</soap:Header>
-			   <soap:Body>
-			      <proc:requestPesquisarProcedimentos>
-				  
-			         <grup:codigoGrupo>05</grup:codigoGrupo>
-			        
-			         <pag:Paginacao>
-			            <pag:registroInicial>01</pag:registroInicial>
-			            <pag:quantidadeRegistros>20</pag:quantidadeRegistros>            
-			         </pag:Paginacao>
-			      </proc:requestPesquisarProcedimentos>
-			   </soap:Body>
-			</soap:Envelope>
-	         */
+	        envelope.addNamespaceDeclaration("proc", "http://servicos.saude.gov.br/sigtap/v1/procedimentoservice");
+	        envelope.addNamespaceDeclaration("sub", "http://servicos.saude.gov.br/schema/sigtap/procedimento/nivelagregacao/v1/subgrupo");
 	        
 	        //SOAP HEADER
 	        SOAPHeader header = soapMessage.getSOAPHeader();
@@ -79,10 +55,10 @@ public class SigTap {
 	        userNameToken.setAttribute("wsu:Id", "Id-0001334008436683-000000002c4a1908-1");
 	        userNameToken.addNamespaceDeclaration("wsu","http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd");
 
-	        SOAPElement userName = security.addChildElement("Username", "wsse");
+	        SOAPElement userName = userNameToken.addChildElement("Username", "wsse");
 	        userName.setTextContent("SIGTAP.PUBLICO");
 	        
-	        SOAPElement password = security.addChildElement("Password", "wsse");
+	        SOAPElement password = userNameToken.addChildElement("Password", "wsse");
 	        password.setAttribute("Type", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText");
 	        password.addTextNode("sigtap#2015public");
 	        
