@@ -1,0 +1,11 @@
+# Para todos os arquivos e sub-pastas localizados na pasta target/
+/target/
+
+# Para todos os arquivos e sub-pastas localizados na pasta bin/
+/bin/
+# Para arquivos de configuracao da IDE Eclipse
+.classpath
+.project
+org.eclipse.jdt.core.prefs
+org.eclipse.m2e.core.prefs
+
