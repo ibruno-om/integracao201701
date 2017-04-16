@@ -19,7 +19,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>br.ufg.inf.integracao.SigTap</mainClass>
+					<mainClass>br.ufg.inf.integracao.App</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
