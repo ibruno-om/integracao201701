@@ -50,12 +50,16 @@ public abstract class RequestSIGTAP implements SoapMessenger {
         password.addTextNode("sigtap#2015public");
     }
 
-    /** Colocar aqui namespaces genericos para toda requisicao. Porem se nao tiver um padrao consistente
-     *  transformar esse metodo em abstrato e forcar que cada subclasse implemente, colocando seus
-     *  namespaces especificos.
-     *
-     * @throws SOAPException
-     */
+    public SOAPMessage getSOAPMessage() throws Exception {
+        soapMessage.saveChanges();
+
+        System.out.print("Request SOAP Message = ");
+        soapMessage.writeTo(System.out);
+        System.out.println();
+
+        return soapMessage;
+    }
+
     protected abstract void addNameSpace() throws SOAPException;
 
     /**

@@ -3,7 +3,6 @@ package br.com.integracaosigtap.connect;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
 
 /**
  * Created by astr1x on 16/04/17.
@@ -46,16 +45,5 @@ public class RequestDetalharProcedimentos  extends RequestSIGTAP  {
         quantidadeRegistros.addTextNode("20");
         SOAPElement totalRegistros = paginacao.addChildElement("totalRegistros", "pag");
         totalRegistros.addTextNode("100");
-    }
-
-    public SOAPMessage getSOAPMessage() throws Exception {
-        soapMessage.saveChanges();
-
-        /* Print the request message */
-        System.out.print("Request SOAP Message = ");
-
-        soapMessage.writeTo(System.out);
-
-        return soapMessage;
     }
 }

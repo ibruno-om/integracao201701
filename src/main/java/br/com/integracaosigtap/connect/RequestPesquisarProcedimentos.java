@@ -3,7 +3,6 @@ package br.com.integracaosigtap.connect;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
 
 /**
  * Created by astr1x on 15/04/17.
@@ -38,19 +37,5 @@ public class RequestPesquisarProcedimentos extends RequestSIGTAP{
         registroInicial.addTextNode("01");
         SOAPElement quantidadeRegistros = paginacao.addChildElement("quantidadeRegistros", "pag");
         quantidadeRegistros.addTextNode("20");
-    }
-
-    public SOAPMessage getSOAPMessage() throws Exception {
-        soapMessage.saveChanges();
-
-        /**
-         *  Debugar o que esta sendo entrega para o WebService, e comparar com o que esta esperado
-         *  na especificacao do SIGTAP
-         */
-        System.out.print("Request SOAP Message = ");
-        soapMessage.writeTo(System.out);
-        System.out.println();
-
-        return soapMessage;
     }
 }

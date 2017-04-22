@@ -1,7 +1,6 @@
 package br.com.integracaosigtap.connect;
 
 import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
 
 /**
  * Created by astr1x on 16/04/17.
@@ -12,10 +11,6 @@ public class RequestListarGrupos extends RequestSIGTAP {
 
     protected RequestListarGrupos() throws Exception {
         super(url);
-    }
-
-    public SOAPMessage getSOAPMessage() throws Exception {
-        return null;
     }
 
     protected void addNameSpace() throws SOAPException {

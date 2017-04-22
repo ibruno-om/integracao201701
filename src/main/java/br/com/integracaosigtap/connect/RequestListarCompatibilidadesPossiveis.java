@@ -1,7 +1,6 @@
 package br.com.integracaosigtap.connect;
 
 import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
 
 /**
  * Created by astr1x on 16/04/17.
@@ -14,12 +13,8 @@ public class RequestListarCompatibilidadesPossiveis extends RequestSIGTAP {
         super(url);
     }
 
-    public SOAPMessage getSOAPMessage() throws Exception {
-        return null;
-    }
-
     protected void addNameSpace() throws SOAPException {
-
+        envelope.addNamespaceDeclaration("com", "http://servicos.saude.gov.br/sigtap/v1/compatibilidadepossivelservice");
     }
 
     @Override
