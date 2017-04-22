@@ -12,11 +12,14 @@ public class RequestListarGrupos extends RequestSIGTAP {
 
     protected RequestListarGrupos() throws Exception {
         super(url);
-        addContent();
     }
 
     public SOAPMessage getSOAPMessage() throws Exception {
         return null;
+    }
+
+    protected void addNameSpace() throws SOAPException {
+
     }
 
     @Override

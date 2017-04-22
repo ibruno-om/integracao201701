@@ -19,6 +19,10 @@ public class RequestListarSubGrupos extends RequestSIGTAP {
         return null;
     }
 
+    protected void addNameSpace() throws SOAPException {
+
+    }
+
     @Override
     protected void addContent() throws SOAPException {
 

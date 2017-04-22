@@ -14,7 +14,10 @@ public class RequestDetalharProcedimentos  extends RequestSIGTAP  {
 
     protected RequestDetalharProcedimentos() throws Exception {
         super(url);
-        addContent();
+    }
+
+    protected void addNameSpace() throws SOAPException {
+
     }
 
     @Override

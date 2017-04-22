@@ -22,6 +22,7 @@ public abstract class RequestSIGTAP implements SoapMessenger {
     protected RequestSIGTAP(String url) throws Exception {
         this.url = url;
         addNameSpace();
+        addContent();
         addHeader();
     }
 
@@ -55,11 +56,7 @@ public abstract class RequestSIGTAP implements SoapMessenger {
      *
      * @throws SOAPException
      */
-    private void addNameSpace() throws SOAPException {
-        envelope.addNamespaceDeclaration("com", "http://servicos.saude.gov.br/schema/corporativo/v1/competencia");
-        envelope.addNamespaceDeclaration("pag", "http://servicos.saude.gov.br/wsdl/mensageria/v1/paginacao");
-        envelope.addNamespaceDeclaration("proc", "http://servicos.saude.gov.br/sigtap/v1/procedimentoservice");
-    }
+    protected abstract void addNameSpace() throws SOAPException;
 
     /**
      *  Adicionar informacoes adicionais para a requisicao, como body, parametros etc.
