@@ -25,7 +25,6 @@ public class RequestPesquisarProcedimentos extends RequestSIGTAP{
 
     @Override
     protected void addContent() throws SOAPException {
-
         SOAPBody soapBody = envelope.getBody();
         SOAPElement requestPesquisarProcedimentos = soapBody.addChildElement("requestPesquisarProcedimentos", "proc");
 
