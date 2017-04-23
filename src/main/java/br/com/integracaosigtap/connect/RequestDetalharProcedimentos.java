@@ -16,20 +16,21 @@ public class RequestDetalharProcedimentos  extends RequestSIGTAP  {
     }
 
     protected void addNameSpace() throws SOAPException {
-
+        envelope.addNamespaceDeclaration("proc", "http://servicos.saude.gov.br/sigtap/v1/procedimentoservice");
+        envelope.addNamespaceDeclaration("proc1", "http://servicos.saude.gov.br/schema/sigtap/procedimento/v1/procedimento");
+        envelope.addNamespaceDeclaration("com", "http://servicos.saude.gov.br/schema/corporativo/v1/competencia");
+        envelope.addNamespaceDeclaration("det", "http://servicos.saude.gov.br/wsdl/mensageria/sigtap/v1/detalheadicional");
+        envelope.addNamespaceDeclaration("pag", "http://servicos.saude.gov.br/wsdl/mensageria/v1/paginacao");
     }
 
     @Override
     protected void addContent() throws SOAPException {
-        envelope.addNamespaceDeclaration("proc1", "http://servicos.saude.gov.br/schema/sigtap/procedimento/v1/procedimento");
-        envelope.addNamespaceDeclaration("det", "http://servicos.saude.gov.br/wsdl/mensageria/sigtap/v1/detalheadicional");
-
         SOAPBody soapBody = envelope.getBody();
 
         SOAPElement requestDetalharProcedimentos = soapBody.addChildElement("requestDetalharProcedimento", "proc");
 
-        SOAPElement codigoProcedimento = requestDetalharProcedimentos.addChildElement("CodigoProcedimento", "proc1");
-        codigoProcedimento.addTextNode("0501010017");
+        SOAPElement codigoProcedimento = requestDetalharProcedimentos.addChildElement("codigoProcedimento", "proc1");
+        codigoProcedimento.addTextNode("0203010027");
 
         SOAPElement detalhesAdicionais = requestDetalharProcedimentos.addChildElement("DetalhesAdicionais", "proc");
 
@@ -38,6 +39,7 @@ public class RequestDetalharProcedimentos  extends RequestSIGTAP  {
         SOAPElement categoriaDetalheAdicional = detalheAdicional.addChildElement("categoriaDetalheAdicional","det");
         categoriaDetalheAdicional.addTextNode("DESCRICAO");
 
+        //Paginacao
         SOAPElement paginacao = detalheAdicional.addChildElement("Paginacao", "det");
         SOAPElement registroInicial = paginacao.addChildElement("registroInicial", "pag");
         registroInicial.addTextNode("01");
