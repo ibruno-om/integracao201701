@@ -1,5 +1,7 @@
 package br.com.integracaosigtap.connect;
 
+import javax.xml.soap.SOAPBody;
+import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPException;
 
 /**
@@ -19,6 +21,7 @@ public class RequestListarCompatibilidadesPossiveis extends RequestSIGTAP {
 
     @Override
     protected void addContent() throws SOAPException {
-
+        SOAPBody soapBody = envelope.getBody();
+        SOAPElement requestPesquisarProcedimentos = soapBody.addChildElement("requestListarCompatibilidadesPossiveis", "com");
     }
 }
