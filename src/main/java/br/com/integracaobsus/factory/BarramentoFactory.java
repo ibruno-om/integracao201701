@@ -1,5 +1,7 @@
 package br.com.integracaobsus.factory;
 
+import java.util.Properties;
+
 import com.ecwid.consul.v1.ConsulClient;
 import com.ecwid.consul.v1.Response;
 import com.ecwid.consul.v1.kv.model.GetValue;
@@ -15,6 +17,7 @@ import com.ecwid.consul.v1.kv.model.GetValue;
  * <li>URL_PROCEDIMENTO_BSUS: Url do serviço de procedimentos</li>
  * <li>URL_COMPATIBILIDADE_BSUS: Url do serviço de Compatibilidades</li>
  * <li>URL_GRUPO_BSUS: Url do serviço de Grupos</li>
+ * <li>CREDENCIAL_BSUS: Credencial para acessar o serviço</li>
  * </ul>
  * 
  * O caminho do Consul service deverá ser configurado como uma variável de
@@ -31,6 +34,7 @@ public class BarramentoFactory {
 	private static String URL_PROCEDIMENTO = "URL_PROCEDIMENTO_BSUS";
 	private static String URL_COMPATIBILIDADE = "URL_COMPATIBILIDADE_BSUS";
 	private static String URL_GRUPO = "URL_GRUPO_BSUS";
+	private static String CREDENCIAL = "CREDENCIAL_BSUS";
 
 	/**
 	 * Retorna uma instância de {@link Barramento}, referente a chave informada.
@@ -49,9 +53,15 @@ public class BarramentoFactory {
 			String className = getConsulValue(key);
 
 			Barramento barramento = (Barramento) Class.forName(className).cast(Barramento.class);
+			
+			Properties properties = new Properties();
+			
+			properties.put("URL_PROCEDIMENTO", getConsulValue(URL_PROCEDIMENTO));
+			properties.put("URL_COMPATIBILIDADE", getConsulValue(URL_COMPATIBILIDADE));
+			properties.put("URL_GRUPO", getConsulValue(URL_GRUPO));
+			properties.put("CREDENCIAL_BSUS", getConsulValue(CREDENCIAL));
 
-			barramento.setURLConnection(getConsulValue(URL_PROCEDIMENTO), getConsulValue(URL_COMPATIBILIDADE),
-					getConsulValue(URL_GRUPO));
+			barramento.setURLConnection(properties);
 
 		} catch (ClassCastException e) {
 			System.err.println("Instância de classe incompatível com barramento, informe uma chave correta.");

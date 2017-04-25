@@ -1,5 +1,7 @@
 package br.com.integracaobsus.factory;
 
+import java.util.Properties;
+
 /**
  * Interface de Barramento BSUS
  * 
@@ -7,11 +9,21 @@ package br.com.integracaobsus.factory;
  * padrão.
  * 
  * @author Iago Bruno
- * @version 1.0
+ * @version 1.0.1
  *
  */
 public interface Barramento {
 
-	public void setURLConnection(String urlProcedimento, String urlCompatibilidadePossivel, String urlGrupos);
+	/**
+	 * Recebe as propriedades padrões de Conexão, tendo as seguintes chaves:
+	 * 
+	 * <li>URL_PROCEDIMENTO: Url do serviço de procedimentos</li>
+	 * <li>URL_COMPATIBILIDADE: Url do serviço de Compatibilidades</li>
+	 * <li>URL_GRUPO: Url do serviço de Grupos</li>
+	 * <li>CREDENCIAL: Credencial para acessar o serviço</li>
+	 * 
+	 * @param properties
+	 */
+	public void setURLConnection(Properties properties);
 
 }
