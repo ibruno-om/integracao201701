@@ -1,5 +1,6 @@
 package br.com.integracaosigtap.connect;
 
+import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 
 /**
@@ -8,4 +9,8 @@ import javax.xml.soap.SOAPMessage;
 public interface SoapMessenger {
 
     SOAPMessage getSOAPMessage() throws Exception;
+
+    void addNameSpace() throws SOAPException;
+
+    void addContent() throws SOAPException;
 }

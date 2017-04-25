@@ -5,20 +5,18 @@ import javax.xml.soap.SOAPException;
 /**
  * Created by astr1x on 16/04/17.
  */
-public class RequestListarGrupos extends RequestSIGTAP {
+public class RequestListarGrupos extends ConnectionSUS {
 
-    static String url = "";
 
-    protected RequestListarGrupos() throws Exception {
-        super(url);
+    public RequestListarGrupos() throws Exception {
     }
 
-    protected void addNameSpace() throws SOAPException {
+    public void addNameSpace() throws SOAPException {
 
     }
 
     @Override
-    protected void addContent() throws SOAPException {
+    public void addContent() throws SOAPException {
 
     }
 }
