@@ -1,19 +1,17 @@
 package br.com.integracaosigtap.connect;
 
+import br.com.integracaosigtap.util.SOAPMessageWriter;
+
 import javax.xml.namespace.QName;
 import javax.xml.soap.*;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.stream.StreamResult;
-import java.io.ByteArrayOutputStream;
 
 /**
  * Created by astr1x on 15/04/17.
  */
 
 public class ConnectionSUS implements SoapMessenger, Connection{
+
+    private SOAPMessageWriter SOAPMessageWriter = new SOAPMessageWriter();
 
     public static String URL_PROCEDIMENTOS = "https://servicoshm.saude.gov.br/sigtap/ProcedimentoService/v1";
 
@@ -46,10 +44,11 @@ public class ConnectionSUS implements SoapMessenger, Connection{
             System.err.println("Erro ao receber resposta do servidor ");
             e.printStackTrace();
         }finally {
+            SOAPMessageWriter.setSoapMessage(soapResponse);
             soapConnection.close();
         }
 
-        return printSoapMessage(soapResponse);
+        return SOAPMessageWriter.getSOAPResponse();
     }
 
     public String getDetalharProcedimentos(String url) throws Exception {
@@ -65,10 +64,11 @@ public class ConnectionSUS implements SoapMessenger, Connection{
             System.err.println("Erro ao receber resposta do servidor ");
             e.printStackTrace();
         }finally {
+            SOAPMessageWriter.setSoapMessage(soapResponse);
             soapConnection.close();
         }
 
-        return printSoapMessage(soapResponse);
+        return SOAPMessageWriter.getSOAPResponse();
     }
 
     public String getListarCompatibilidadesPossiveis(String url) throws Exception{
@@ -84,10 +84,11 @@ public class ConnectionSUS implements SoapMessenger, Connection{
             System.err.println("Erro ao receber resposta do servidor ");
             e.printStackTrace();
         }finally {
+            SOAPMessageWriter.setSoapMessage(soapResponse);
             soapConnection.close();
         }
 
-        return printSoapMessage(soapResponse);
+        return SOAPMessageWriter.getSOAPResponse();
     }
 
     public String getPesquisarCompatibilidades(String url) throws Exception{
@@ -106,7 +107,7 @@ public class ConnectionSUS implements SoapMessenger, Connection{
             soapConnection.close();
         }
 
-        return printSoapMessage(soapResponse);
+        return SOAPMessageWriter.getSOAPResponse();
     }
 
     public String getListarFormaOrganizacao(String url){
@@ -152,20 +153,4 @@ public class ConnectionSUS implements SoapMessenger, Connection{
     public void addNameSpace() throws SOAPException {}
 
     public void addContent() throws SOAPException {}
-
-    public static String printSoapMessage(final SOAPMessage soapMessage) throws Exception{
-        final TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        final Transformer transformer = transformerFactory.newTransformer();
-
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-
-        final Source soapContent = soapMessage.getSOAPPart().getContent();
-
-        final ByteArrayOutputStream streamOut = new ByteArrayOutputStream();
-        final StreamResult result = new StreamResult(streamOut);
-        transformer.transform(soapContent, result);
-
-        return streamOut.toString();
-    }
 }
