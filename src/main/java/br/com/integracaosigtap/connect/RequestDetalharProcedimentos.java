@@ -7,15 +7,13 @@ import javax.xml.soap.SOAPException;
 /**
  * Created by astr1x on 16/04/17.
  */
-public class RequestDetalharProcedimentos  extends RequestSIGTAP  {
+public class RequestDetalharProcedimentos  extends ConnectionSUS {
 
-    static String url = "https://servicoshm.saude.gov.br/sigtap/ProcedimentoService/v1";
 
-    protected RequestDetalharProcedimentos() throws Exception {
-        super(url);
+    public RequestDetalharProcedimentos() throws Exception {
     }
 
-    protected void addNameSpace() throws SOAPException {
+    public void addNameSpace() throws SOAPException {
         envelope.addNamespaceDeclaration("proc", "http://servicos.saude.gov.br/sigtap/v1/procedimentoservice");
         envelope.addNamespaceDeclaration("proc1", "http://servicos.saude.gov.br/schema/sigtap/procedimento/v1/procedimento");
         envelope.addNamespaceDeclaration("com", "http://servicos.saude.gov.br/schema/corporativo/v1/competencia");
@@ -24,7 +22,7 @@ public class RequestDetalharProcedimentos  extends RequestSIGTAP  {
     }
 
     @Override
-    protected void addContent() throws SOAPException {
+    public void addContent() throws SOAPException {
         SOAPBody soapBody = envelope.getBody();
 
         SOAPElement requestDetalharProcedimentos = soapBody.addChildElement("requestDetalharProcedimento", "proc");

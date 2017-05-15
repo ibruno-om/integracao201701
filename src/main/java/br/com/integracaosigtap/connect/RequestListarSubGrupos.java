@@ -6,25 +6,22 @@ import javax.xml.soap.SOAPMessage;
 /**
  * Created by astr1x on 16/04/17.
  */
-public class RequestListarSubGrupos extends RequestSIGTAP {
+public class RequestListarSubGrupos extends ConnectionSUS {
 
-    static String url = "";
 
     protected RequestListarSubGrupos() throws Exception {
-        super(url);
-        addContent();
     }
 
     public SOAPMessage getSOAPMessage() throws Exception {
         return null;
     }
 
-    protected void addNameSpace() throws SOAPException {
+    public void addNameSpace() throws SOAPException {
 
     }
 
     @Override
-    protected void addContent() throws SOAPException {
+    public void addContent() throws SOAPException {
 
     }
 }

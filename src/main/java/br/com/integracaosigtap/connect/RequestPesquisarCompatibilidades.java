@@ -7,15 +7,13 @@ import javax.xml.soap.SOAPException;
 /**
  * Created by astr1x on 16/04/17.
  */
-public class RequestPesquisarCompatibilidades extends RequestSIGTAP {
+public class RequestPesquisarCompatibilidades extends ConnectionSUS {
 
-    static String url = "https://servicoshm.saude.gov.br/sigtap/CompatibilidadeService/v1";
 
-    protected RequestPesquisarCompatibilidades() throws Exception {
-        super(url);
+    public RequestPesquisarCompatibilidades() throws Exception {
     }
 
-    protected void addNameSpace() throws SOAPException {
+    public void addNameSpace() throws SOAPException {
         envelope.addNamespaceDeclaration("com", "http://servicos.saude.gov.br/sigtap/v1/compatibilidadeservice");
         envelope.addNamespaceDeclaration("com1", "http://servicos.saude.gov.br/schema/sigtap/compatibilidade/v1r1/compatibilidadepossivel");
         envelope.addNamespaceDeclaration("com2", "http://servicos.saude.gov.br/schema/corporativo/v1/competencia");
@@ -27,7 +25,7 @@ public class RequestPesquisarCompatibilidades extends RequestSIGTAP {
     }
 
     @Override
-    protected void addContent() throws SOAPException {
+    public void addContent() throws SOAPException {
         SOAPBody soapBody = envelope.getBody();
         SOAPElement requestPesquisarCompatibilidades = soapBody.addChildElement("requestPesquisarCompatibilidades", "com");
 
