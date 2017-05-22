@@ -61,7 +61,7 @@ public class BarramentoFactory {
 			properties.put("URL_GRUPO", getConsulValue(URL_GRUPO));
 			properties.put("CREDENCIAL_BSUS", getConsulValue(CREDENCIAL));
 
-			barramento.setURLConnection(properties);
+			barramento.setProperties(properties);
 
 		} catch (ClassCastException e) {
 			System.err.println("Instância de classe incompatível com barramento, informe uma chave correta.");
