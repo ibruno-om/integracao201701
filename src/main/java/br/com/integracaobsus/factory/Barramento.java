@@ -24,6 +24,6 @@ public interface Barramento {
 	 * 
 	 * @param properties
 	 */
-	public void setURLConnection(Properties properties);
+	public void setProperties(Properties properties);
 
 }
