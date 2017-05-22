@@ -19,6 +19,8 @@ public class ConnectionSUS implements SoapMessenger, Connection{
 
     public static String URL_COMPATIBILIDADE = "https://servicoshm.saude.gov.br/sigtap/CompatibilidadeService/v1";
 
+    public static String URL_GRUPO = "https://servicoshm.saude.gov.br/sigtap/NivelAgregacaoService/v1";
+
 
     protected MessageFactory messageFactory = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL);
     protected SOAPMessage soapMessage = messageFactory.createMessage();
@@ -104,24 +106,71 @@ public class ConnectionSUS implements SoapMessenger, Connection{
             System.err.println("Erro ao receber resposta do servidor ");
             e.printStackTrace();
         }finally {
+            SOAPMessageWriter.setSoapMessage(soapResponse);
             soapConnection.close();
         }
 
         return SOAPMessageWriter.getSOAPResponse();
     }
 
-    public String getListarFormaOrganizacao(String url){
-        return null;
+    public String getListarFormaOrganizacao(String url) throws Exception{
+        SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
+        SOAPConnection soapConnection = soapConnectionFactory.createConnection();
+
+        SOAPMessage soapResponse = null;
+
+        try{
+            ConnectionSUS listarFormaOrganizacao = new RequestListarFormaOrganizacao();
+            soapResponse = soapConnection.call(listarFormaOrganizacao.getSOAPMessage(), url);
+        }catch (Exception e){
+            System.err.println("Erro ao receber resposta do servidor");
+            e.printStackTrace();
+        }finally {
+            SOAPMessageWriter.setSoapMessage(soapResponse);
+            soapConnection.close();
+        }
+
+        return SOAPMessageWriter.getSOAPResponse();
     }
 
-    public String getListarGrupos(String url){
+    public String getListarGrupos(String url) throws Exception{
+        SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
+        SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
-        return null;
+        SOAPMessage soapResponse = null;
+
+        try{
+            ConnectionSUS listarGrupos = new RequestListarGrupos();
+            soapResponse = soapConnection.call(listarGrupos.getSOAPMessage(), url);
+        }catch (Exception e){
+            System.err.println("Erro ao receber resposta do servidor");
+            e.printStackTrace();
+        }finally {
+            SOAPMessageWriter.setSoapMessage(soapResponse);
+            soapConnection.close();
+        }
+
+        return SOAPMessageWriter.getSOAPResponse();
     }
 
-    public String getListarSubGrupos(String url){
+    public String getListarSubGrupos(String url) throws Exception{
+        SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
+        SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
-        return null;
+        SOAPMessage soapResponse = null;
+
+        try{
+            ConnectionSUS listarSubGrupos = new RequestListarSubGrupos();
+            soapResponse = soapConnection.call(listarSubGrupos.getSOAPMessage(), url);
+        }catch (Exception e){
+            System.err.println("Erro ao receber resposta do servidor ");
+            e.printStackTrace();
+        }finally {
+            SOAPMessageWriter.setSoapMessage(soapResponse);
+            soapConnection.close();
+        }
+
+        return SOAPMessageWriter.getSOAPResponse();
     }
 
     private void addHeader() throws SOAPException {
