@@ -1,5 +1,11 @@
+import java.io.StringReader;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+
 import br.com.integracaosigtap.connect.Connection;
 import br.com.integracaosigtap.connect.ConnectionSUS;
+import br.com.integracaosigtap.model.Envelope;
 
 /**
  * Created by astr1x on 16/04/17.
@@ -9,7 +15,18 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         Connection connection = new ConnectionSUS();
-//        System.out.println(connection.getPesquisarProcedimentos(ConnectionSUS.URL_PROCEDIMENTOS));
+        
+        JAXBContext jc = JAXBContext.newInstance(Envelope.class);
+        
+        Unmarshaller unmarshaller = jc.createUnmarshaller();
+        
+        System.out.println(connection.getPesquisarProcedimentos(ConnectionSUS.URL_PROCEDIMENTOS));
+        
+        StringReader rs = new StringReader(connection.getPesquisarProcedimentos(ConnectionSUS.URL_PROCEDIMENTOS));
+        Envelope procedimento = (Envelope) unmarshaller.unmarshal(rs);
+        System.out.println(procedimento);
+        
+      
 
 //        System.out.println(connection.getDetalharProcedimentos(ConnectionSUS.URL_PROCEDIMENTOS));
 
