@@ -3,7 +3,7 @@ package br.com.integracaobsus.factory;
 import java.util.List;
 import java.util.Properties;
 
-import br.com.integracaosigtap.model.Procedimento;
+import br.com.integracaosigtap.model.BaseProcedimento;
 
 /**
  * Interface de Barramento BSUS
@@ -29,6 +29,6 @@ public interface Barramento {
 	 */
 	public void setProperties(Properties properties);
 	
-	public List<Procedimento> pesquisarProcedimentos();
+	public List<BaseProcedimento> pesquisarProcedimentos();
 
 }

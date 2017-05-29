@@ -184,4 +184,6 @@ public class Procedimento extends Model{
     public void setDetalheAdicional(DetalheAdicional detalheAdicional) {
         this.detalheAdicional = detalheAdicional;
     }
+    
+    
 }
