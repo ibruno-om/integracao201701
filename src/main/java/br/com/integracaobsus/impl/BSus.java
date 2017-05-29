@@ -24,6 +24,8 @@ public class BSus implements Barramento {
 	public void setProperties(Properties properties) {
 		try {
 			connection = new ConnectionSUS();
+			//TODO Implementar método construtor com properties das chaves
+			// connection = new ConnectionSUS(properties);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
