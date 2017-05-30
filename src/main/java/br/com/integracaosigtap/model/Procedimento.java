@@ -3,9 +3,12 @@ package br.com.integracaosigtap.model;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * Created by astr1x on 21/05/17.
  */
+@XmlRootElement(name = "BaseProcedimento")
 public class Procedimento extends Model{
 
     private FormaOrganizacao formaOrganizacao;
@@ -181,4 +184,6 @@ public class Procedimento extends Model{
     public void setDetalheAdicional(DetalheAdicional detalheAdicional) {
         this.detalheAdicional = detalheAdicional;
     }
+    
+    
 }

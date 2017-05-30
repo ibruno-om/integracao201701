@@ -1,5 +1,7 @@
-import br.com.integracaosigtap.connect.Connection;
-import br.com.integracaosigtap.connect.ConnectionSUS;
+import java.util.List;
+
+import br.com.integracaobsus.impl.BSus;
+import br.com.integracaosigtap.model.BaseProcedimento;
 
 /**
  * Created by astr1x on 16/04/17.
@@ -7,10 +9,17 @@ import br.com.integracaosigtap.connect.ConnectionSUS;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-
-        Connection connection = new ConnectionSUS();
-//        System.out.println(connection.getPesquisarProcedimentos(ConnectionSUS.URL_PROCEDIMENTOS));
-
+    	
+    	BSus bsus = new BSus();
+    	
+    	bsus.setProperties(null);
+    	
+    	List<BaseProcedimento> pesquisarProcedimentos = bsus.pesquisarProcedimentos();
+    	
+        for (BaseProcedimento baseProcedimento : pesquisarProcedimentos) {
+			System.out.println(baseProcedimento.getCodigo() + "-" + baseProcedimento.getNome());
+		}
+        
 //        System.out.println(connection.getDetalharProcedimentos(ConnectionSUS.URL_PROCEDIMENTOS));
 
 //        System.out.println(connection.getListarCompatibilidadesPossiveis(ConnectionSUS.URL_COMPATIBILIDADE_POSSIVEIS));

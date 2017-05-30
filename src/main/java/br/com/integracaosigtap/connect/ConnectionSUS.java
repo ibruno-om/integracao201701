@@ -1,9 +1,21 @@
 package br.com.integracaosigtap.connect;
 
-import br.com.integracaosigtap.util.SOAPMessageWriter;
+import java.util.Properties;
 
 import javax.xml.namespace.QName;
-import javax.xml.soap.*;
+import javax.xml.soap.MessageFactory;
+import javax.xml.soap.SOAPConnection;
+import javax.xml.soap.SOAPConnectionFactory;
+import javax.xml.soap.SOAPConstants;
+import javax.xml.soap.SOAPElement;
+import javax.xml.soap.SOAPEnvelope;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPHeader;
+import javax.xml.soap.SOAPHeaderElement;
+import javax.xml.soap.SOAPMessage;
+import javax.xml.soap.SOAPPart;
+
+import br.com.integracaosigtap.util.SOAPMessageWriter;
 
 /**
  * Created by astr1x on 15/04/17.
@@ -26,6 +38,10 @@ public class ConnectionSUS implements SoapMessenger, Connection{
     protected SOAPMessage soapMessage = messageFactory.createMessage();
     protected SOAPPart soapPart = soapMessage.getSOAPPart();
     protected SOAPEnvelope envelope=  soapPart.getEnvelope();
+    
+    public ConnectionSUS(Properties properties) throws Exception {
+    	
+    }
 
     public ConnectionSUS() throws Exception {
         addNameSpace();
