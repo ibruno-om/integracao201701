@@ -20,6 +20,8 @@ public class Main {
 			System.out.println(baseProcedimento.getCodigo() + "-" + baseProcedimento.getNome());
 		}
         
+        
+        
 //        System.out.println(connection.getDetalharProcedimentos(ConnectionSUS.URL_PROCEDIMENTOS));
 
 //        System.out.println(connection.getListarCompatibilidadesPossiveis(ConnectionSUS.URL_COMPATIBILIDADE_POSSIVEIS));
