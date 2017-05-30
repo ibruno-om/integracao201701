@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Properties;
 
 import br.com.integracaosigtap.model.BaseProcedimento;
+import br.com.integracaosigtap.model.Grupo;
 
 /**
  * Interface de Barramento BSUS
@@ -30,5 +31,8 @@ public interface Barramento {
 	public void setProperties(Properties properties);
 	
 	public List<BaseProcedimento> pesquisarProcedimentos();
+	
+	public List<Grupo> pesquisarGrupos();
+	
 
 }
