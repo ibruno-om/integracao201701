@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Properties;
 
 import br.com.integracaosigtap.model.BaseProcedimento;
+
 import br.com.integracaosigtap.model.Compatibilidade;
+
 import br.com.integracaosigtap.model.Grupo;
 
 /**
@@ -33,6 +35,7 @@ public interface Barramento {
 	
 	public List<BaseProcedimento> pesquisarProcedimentos();
 	
+
 	public List<Compatibilidade> pesquisarCompatibilidades();
 	
 	public List<Grupo> listarGrupos();
