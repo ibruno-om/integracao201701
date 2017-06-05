@@ -5,17 +5,17 @@ package br.com.integracaosigtap.model;
  */
 public class FormaOrganizacao extends Model {
 
-    private SubGrupo subGrupo;
+    private Grupo grupo;
 
     public FormaOrganizacao(){
 
     }
 
-    public SubGrupo getSubGrupo() {
-        return subGrupo;
+    public Grupo getSubGrupo() {
+        return grupo;
     }
 
-    public void setSubGrupo(SubGrupo subGrupo) {
-        this.subGrupo = subGrupo;
+    public void setSubGrupo(Grupo grupo) {
+        this.grupo = grupo;
     }
 }

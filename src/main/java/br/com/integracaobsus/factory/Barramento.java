@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Properties;
 
 import br.com.integracaosigtap.model.BaseProcedimento;
+
+import br.com.integracaosigtap.model.Compatibilidade;
+
 import br.com.integracaosigtap.model.Grupo;
 
 /**
@@ -17,7 +20,7 @@ import br.com.integracaosigtap.model.Grupo;
  *
  */
 public interface Barramento {
-
+	
 	/**
 	 * Recebe as propriedades padrões de Conexão, tendo as seguintes chaves:
 	 * 
@@ -32,7 +35,11 @@ public interface Barramento {
 	
 	public List<BaseProcedimento> pesquisarProcedimentos();
 	
-	public List<Grupo> pesquisarGrupos();
+
+	public List<Compatibilidade> pesquisarCompatibilidades();
 	
+	public List<Grupo> listarGrupos();
+	
+	public List<Grupo> listarSubGrupos();
 
 }

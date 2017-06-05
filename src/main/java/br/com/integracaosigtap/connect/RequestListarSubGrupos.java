@@ -23,7 +23,5 @@ public class RequestListarSubGrupos extends ConnectionSUS {
         SOAPBody soapBody = envelope.getBody();
         SOAPElement requestListarSubGrupos = soapBody.addChildElement("requestListarSubgrupos", "niv");
 
-        SOAPElement codigoGrupo = requestListarSubGrupos.addChildElement("codigoGrupo", "grup");
-        codigoGrupo.addTextNode("01");
     }
 }
