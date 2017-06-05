@@ -14,11 +14,20 @@ public class Main {
 
 		bsus.setProperties(null);
 
-		List<BaseProcedimento> pesquisarProcedimentos = bsus.pesquisarProcedimentos();
+		bsus.pesquisarCompatibilidades();
+//
+//		List<Grupo> listarGrupos = bsus.listarGrupos();
+//
+//		for (Grupo grupo : listarGrupos) {
+//			System.out.println(grupo);
+//		}
 
-		for (BaseProcedimento baseProcedimento : pesquisarProcedimentos) {
-			System.out.println(baseProcedimento);
-		}
+		 List<BaseProcedimento> pesquisarProcedimentos =
+		 bsus.pesquisarProcedimentos();
+		
+		 for (BaseProcedimento baseProcedimento : pesquisarProcedimentos) {
+		 System.out.println(baseProcedimento);
+		 }
 
 		// System.out.println(connection.getDetalharProcedimentos(ConnectionSUS.URL_PROCEDIMENTOS));
 

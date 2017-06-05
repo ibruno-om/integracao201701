@@ -5,7 +5,4 @@ package br.com.integracaosigtap.model;
  */
 public class Grupo extends Model {
 
-    public Grupo(){
-
-    }
 }

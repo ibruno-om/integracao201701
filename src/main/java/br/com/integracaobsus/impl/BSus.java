@@ -16,6 +16,8 @@ import br.com.integracaobsus.factory.Barramento;
 import br.com.integracaosigtap.connect.Connection;
 import br.com.integracaosigtap.connect.ConnectionSUS;
 import br.com.integracaosigtap.model.BaseProcedimento;
+import br.com.integracaosigtap.model.Compatibilidade;
+import br.com.integracaosigtap.model.Grupo;
 
 public class BSus implements Barramento {
 
@@ -46,6 +48,7 @@ public class BSus implements Barramento {
 			XMLInputFactory fabrica = XMLInputFactory.newFactory();
 
 			StringReader rs = new StringReader(connection.getPesquisarProcedimentos(urlProcedimento));
+			System.out.println(connection.getPesquisarProcedimentos(urlProcedimento));
 
 			XMLEventReader reader = fabrica.createXMLEventReader(rs);
 
@@ -73,6 +76,57 @@ public class BSus implements Barramento {
 			}
 
 			return new ArrayList<BaseProcedimento>(procedimentos);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	@Override
+	public List<Compatibilidade> pesquisarCompatibilidades() {
+		try {
+			System.out.println(connection.getListarGrupos(urlGrupo));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<Grupo> listarGrupos() {
+		try {
+			XMLInputFactory factory = XMLInputFactory.newFactory();
+
+			StringReader rs = new StringReader(connection.getPesquisarProcedimentos(urlGrupo));
+
+			XMLEventReader reader = factory.createXMLEventReader(rs);
+
+			Grupo grupo = null;
+			Set<Grupo> grupos = new HashSet<Grupo>();
+
+			while (reader.hasNext()) {
+				XMLEvent event = reader.nextEvent();
+
+				if (event.isStartElement()) {
+					StartElement startElement = event.asStartElement();
+
+					if (startElement.getName().getLocalPart().equals("Grupo")) {
+						grupo = new Grupo();
+					} else if (startElement.getName().getLocalPart().equals("codigo")) {
+						event = reader.nextEvent();
+						grupo.setCodigo(event.asCharacters().getData());
+					} else if (startElement.getName().getLocalPart().equals("nome")) {
+						event = reader.nextEvent();
+						grupo.setNome(event.asCharacters().getData());
+						grupos.add(grupo);
+					}
+				}
+
+			}
+
+			return new ArrayList<Grupo>(grupos);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
