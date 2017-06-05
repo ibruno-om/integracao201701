@@ -111,7 +111,7 @@ public class BSus implements Barramento {
 
 				if (event.isStartElement()) {
 					StartElement startElement = event.asStartElement();
-					
+
 					if (startElement.getName().getLocalPart().equals("Grupo")) {
 						grupo = new Grupo();
 					} else if (startElement.getName().getLocalPart().equals("codigo")) {
@@ -121,6 +121,67 @@ public class BSus implements Barramento {
 						event = reader.nextEvent();
 						grupo.setNome(event.asCharacters().getData());
 						grupos.add(grupo);
+					}
+				}
+
+			}
+
+			return new ArrayList<Grupo>(grupos);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	@Override
+	public List<Grupo> listarSubGrupos() {
+		try {
+			XMLInputFactory factory = XMLInputFactory.newFactory();
+
+			StringReader rs = new StringReader(connection.getListarSubGrupos(urlGrupo));
+
+			XMLEventReader reader = factory.createXMLEventReader(rs);
+
+			Grupo subGrupo = null;
+			Grupo grupo = null;
+			Set<Grupo> grupos = new HashSet<Grupo>();
+
+			while (reader.hasNext()) {
+				XMLEvent event = reader.nextEvent();
+
+				if (event.isStartElement()) {
+					StartElement startElement = event.asStartElement();
+
+					if (startElement.getName().getLocalPart().equals("Subgrupo")) {
+						subGrupo = new Grupo();
+					} else if (startElement.getName().getLocalPart().equals("codigo")) {
+						event = reader.nextEvent();
+						subGrupo.setCodigo(event.asCharacters().getData());
+					} else if (startElement.getName().getLocalPart().equals("nome")) {
+						event = reader.nextEvent();
+						subGrupo.setNome(event.asCharacters().getData());
+						grupos.add(subGrupo);
+					} else if (startElement.getName().getLocalPart().equals("Grupo")) {
+						grupo = new Grupo();
+
+						while (reader.hasNext()) {
+							event = reader.nextEvent();
+							if (event.isStartElement()) {
+								startElement = event.asStartElement();
+								if (startElement.getName().getLocalPart().equals("codigo")) {
+									event = reader.nextEvent();
+									grupo.setCodigo(event.asCharacters().getData());
+								} else if (startElement.getName().getLocalPart().equals("nome")) {
+									// último elemento desta estrutura
+									event = reader.nextEvent();
+									grupo.setNome(event.asCharacters().getData());
+									break;
+								}
+							}
+						}
+
+						subGrupo.setGrupo(grupo);
 					}
 				}
 

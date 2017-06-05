@@ -14,9 +14,9 @@ public class Main {
 
 		bsus.setProperties(null);
 
-		bsus.pesquisarCompatibilidades();
+//		bsus.pesquisarCompatibilidades();
 
-		List<Grupo> listarGrupos = bsus.listarGrupos();
+		List<Grupo> listarGrupos = bsus.listarSubGrupos();
 
 		for (Grupo grupo : listarGrupos) {
 			System.out.println(grupo);

@@ -36,5 +36,7 @@ public interface Barramento {
 	public List<Compatibilidade> pesquisarCompatibilidades();
 	
 	public List<Grupo> listarGrupos();
+	
+	public List<Grupo> listarSubGrupos();
 
 }
