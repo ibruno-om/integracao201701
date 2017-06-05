@@ -24,7 +24,7 @@ public class BSus implements Barramento {
 	public void setProperties(Properties properties) {
 		try {
 			connection = new ConnectionSUS();
-			//TODO Implementar método construtor com properties das chaves
+			// TODO Implementar método construtor com properties das chaves
 			// connection = new ConnectionSUS(properties);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -56,11 +56,6 @@ public class BSus implements Barramento {
 					} else if (startElement.getName().getLocalPart().equals("nome")) {
 						event = reader.nextEvent();
 						procedimento.setNome(event.asCharacters().getData());
-					}
-				}
-
-				if (event.isEndElement()) {
-					if (procedimento != null){
 						procedimentos.add(procedimento);
 					}
 				}
