@@ -4,11 +4,13 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class RequestListarCompatibilidadesPossiveisTest {
+	
+	private String URL_PROCEDIMENTOS = "https://servicoshm.saude.gov.br/sigtap/ProcedimentoService/v1";
 
 	@Test
 	public void testListarCompatibilidadesPossiveisSuccesso() throws Exception {
 		Connection connection = new RequestListarCompatibilidadesPossiveis();
-		String resposta = connection.getListarCompatibilidadesPossiveis(ConnectionSUS.URL_PROCEDIMENTOS);
+		String resposta = connection.getListarCompatibilidadesPossiveis(URL_PROCEDIMENTOS);
 		
 
 		String esperado = "requestListarCompatibilidadesPossiveis";
@@ -21,7 +23,7 @@ public class RequestListarCompatibilidadesPossiveisTest {
 	@Test
 	public void testListarCompatibilidadesPossiveisErro() throws Exception {
 		Connection connection = new RequestListarCompatibilidadesPossiveis();
-		String resposta = connection.getListarCompatibilidadesPossiveis(ConnectionSUS.URL_PROCEDIMENTOS);
+		String resposta = connection.getListarCompatibilidadesPossiveis(URL_PROCEDIMENTOS);
 		
 		String esperado = "requestNotMatch";
 		Assert.assertFalse(resposta.contains(esperado));

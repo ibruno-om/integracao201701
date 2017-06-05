@@ -19,13 +19,23 @@ import br.com.integracaosigtap.model.BaseProcedimento;
 
 public class BSus implements Barramento {
 
+	private String urlProcedimento = "https://servicoshm.saude.gov.br/sigtap/ProcedimentoService/v1";
+	private String urlCompatibilidade = "https://servicoshm.saude.gov.br/sigtap/CompatibilidadeService/v1";
+	private String urlCompatibilidadePossivel = "https://servicoshm.saude.gov.br/sigtap/CompatibilidadePossivelService/v1";
+	private String urlGrupo = "https://servicoshm.saude.gov.br/sigtap/NivelAgregacaoService/v1";
+
 	private Connection connection;
 
 	public void setProperties(Properties properties) {
 		try {
-			connection = new ConnectionSUS();
-			// TODO Implementar método construtor com properties das chaves
-			// connection = new ConnectionSUS(properties);
+			if (properties != null) {
+				urlProcedimento = (String) properties.get("URL_PROCEDIMENTO");
+				urlCompatibilidade = (String) properties.get("URL_COMPATIBILIDADE");
+				urlGrupo = (String) properties.get("URL_GRUPO");
+				connection = new ConnectionSUS(properties);
+			} else {
+				connection = new ConnectionSUS();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -35,7 +45,7 @@ public class BSus implements Barramento {
 		try {
 			XMLInputFactory fabrica = XMLInputFactory.newFactory();
 
-			StringReader rs = new StringReader(connection.getPesquisarProcedimentos(ConnectionSUS.URL_PROCEDIMENTOS));
+			StringReader rs = new StringReader(connection.getPesquisarProcedimentos(urlProcedimento));
 
 			XMLEventReader reader = fabrica.createXMLEventReader(rs);
 

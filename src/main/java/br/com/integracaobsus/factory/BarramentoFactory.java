@@ -33,8 +33,11 @@ public class BarramentoFactory {
 	private static String URL_CONSUL = "CONSUL_SERVER";
 	private static String URL_PROCEDIMENTO = "URL_PROCEDIMENTO_BSUS";
 	private static String URL_COMPATIBILIDADE = "URL_COMPATIBILIDADE_BSUS";
+	private static String URL_COMPATIBILIDADE_POSSIVEL = "URL_COMPATIBILIDADE_POSSIVEL_BSUS";
 	private static String URL_GRUPO = "URL_GRUPO_BSUS";
 	private static String CREDENCIAL = "CREDENCIAL_BSUS";
+	private static String USERNAME = "USERNAME_BSUS";
+	private static String PASSWORD = "PASSWORD_BSUS";
 
 	/**
 	 * Retorna uma instância de {@link Barramento}, referente a chave informada.
@@ -53,13 +56,16 @@ public class BarramentoFactory {
 			String className = getConsulValue(key);
 
 			Barramento barramento = (Barramento) Class.forName(className).cast(Barramento.class);
-			
+
 			Properties properties = new Properties();
-			
+
 			properties.put("URL_PROCEDIMENTO", getConsulValue(URL_PROCEDIMENTO));
 			properties.put("URL_COMPATIBILIDADE", getConsulValue(URL_COMPATIBILIDADE));
+			properties.put("URL_COMPATIBILIDADE-POSSIVEL", getConsulValue(URL_COMPATIBILIDADE_POSSIVEL));
 			properties.put("URL_GRUPO", getConsulValue(URL_GRUPO));
-			properties.put("CREDENCIAL_BSUS", getConsulValue(CREDENCIAL));
+			properties.put("CREDENCIAL", getConsulValue(CREDENCIAL));
+			properties.put("USETNAME", getConsulValue(USERNAME));
+			properties.put("PASSWORD", getConsulValue(PASSWORD));
 
 			barramento.setProperties(properties);
 

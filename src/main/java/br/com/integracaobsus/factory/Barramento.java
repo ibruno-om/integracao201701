@@ -16,7 +16,7 @@ import br.com.integracaosigtap.model.BaseProcedimento;
  *
  */
 public interface Barramento {
-
+	
 	/**
 	 * Recebe as propriedades padrões de Conexão, tendo as seguintes chaves:
 	 * 

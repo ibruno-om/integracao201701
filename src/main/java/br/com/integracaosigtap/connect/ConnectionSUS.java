@@ -25,18 +25,15 @@ public class ConnectionSUS implements SoapMessenger, Connection {
 
 	private SOAPMessageWriter SOAPMessageWriter = new SOAPMessageWriter();
 
-	public static String URL_PROCEDIMENTOS = "https://servicoshm.saude.gov.br/sigtap/ProcedimentoService/v1";
 
-	public static String URL_COMPATIBILIDADE_POSSIVEIS = "https://servicoshm.saude.gov.br/sigtap/CompatibilidadePossivelService/v1";
+	private static String URL_COMPATIBILIDADE_POSSIVEIS = "";
 
-	public static String URL_COMPATIBILIDADE = "https://servicoshm.saude.gov.br/sigtap/CompatibilidadeService/v1";
-
-	public static String URL_GRUPO = "https://servicoshm.saude.gov.br/sigtap/NivelAgregacaoService/v1";
+	private static String URL_COMPATIBILIDADE = "";
 
 	private static String TOKEN_ID = "Id-0001334008436683-000000002c4a1908-1";
-	
+
 	private static String USERNAME = "SIGTAP.PUBLICO";
-	
+
 	private static String PASSWORD = "sigtap#2015public";
 
 	protected MessageFactory messageFactory = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL);
@@ -46,12 +43,16 @@ public class ConnectionSUS implements SoapMessenger, Connection {
 
 	public ConnectionSUS(Properties properties) throws Exception {
 		if (properties != null) {
-			Object credential = properties.get("CREDENCIAL_BSUS");
+			
+			TOKEN_ID = (String) properties.get("CREDENCIAL");
+			USERNAME = (String) properties.get("USERNAME");
+			PASSWORD = (String) properties.get("PASSWORD");
 
-			if (credential != null) {
-
-			}
 		}
+		
+		addNameSpace();
+		addContent();
+		addHeader();
 	}
 
 	public ConnectionSUS() throws Exception {
