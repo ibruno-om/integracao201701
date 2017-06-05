@@ -1,7 +1,7 @@
 import java.util.List;
 
 import br.com.integracaobsus.impl.BSus;
-import br.com.integracaosigtap.model.BaseProcedimento;
+import br.com.integracaosigtap.model.Grupo;
 
 /**
  * Created by astr1x on 16/04/17.
@@ -15,19 +15,19 @@ public class Main {
 		bsus.setProperties(null);
 
 		bsus.pesquisarCompatibilidades();
-//
-//		List<Grupo> listarGrupos = bsus.listarGrupos();
-//
-//		for (Grupo grupo : listarGrupos) {
-//			System.out.println(grupo);
-//		}
 
-		 List<BaseProcedimento> pesquisarProcedimentos =
-		 bsus.pesquisarProcedimentos();
-		
-		 for (BaseProcedimento baseProcedimento : pesquisarProcedimentos) {
-		 System.out.println(baseProcedimento);
-		 }
+		List<Grupo> listarGrupos = bsus.listarGrupos();
+
+		for (Grupo grupo : listarGrupos) {
+			System.out.println(grupo);
+		}
+
+//		 List<BaseProcedimento> pesquisarProcedimentos =
+//		 bsus.pesquisarProcedimentos();
+//		
+//		 for (BaseProcedimento baseProcedimento : pesquisarProcedimentos) {
+//		 System.out.println(baseProcedimento);
+//		 }
 
 		// System.out.println(connection.getDetalharProcedimentos(ConnectionSUS.URL_PROCEDIMENTOS));
 

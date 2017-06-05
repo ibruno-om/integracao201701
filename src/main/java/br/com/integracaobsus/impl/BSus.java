@@ -99,7 +99,7 @@ public class BSus implements Barramento {
 		try {
 			XMLInputFactory factory = XMLInputFactory.newFactory();
 
-			StringReader rs = new StringReader(connection.getPesquisarProcedimentos(urlGrupo));
+			StringReader rs = new StringReader(connection.getListarGrupos(urlGrupo));
 
 			XMLEventReader reader = factory.createXMLEventReader(rs);
 
@@ -111,7 +111,7 @@ public class BSus implements Barramento {
 
 				if (event.isStartElement()) {
 					StartElement startElement = event.asStartElement();
-
+					
 					if (startElement.getName().getLocalPart().equals("Grupo")) {
 						grupo = new Grupo();
 					} else if (startElement.getName().getLocalPart().equals("codigo")) {
