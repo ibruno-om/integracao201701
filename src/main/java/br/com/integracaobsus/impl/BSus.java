@@ -21,6 +21,7 @@ import br.com.integracaosigtap.model.Compatibilidade;
 import br.com.integracaosigtap.model.CompatibilidadePossivel;
 import br.com.integracaosigtap.model.Grupo;
 import br.com.integracaosigtap.model.InstrumentoRegistro;
+import br.com.integracaosigtap.model.Procedimento;
 
 public class BSus implements Barramento {
 
@@ -92,14 +93,19 @@ public class BSus implements Barramento {
 		try {
 			XMLInputFactory factory = XMLInputFactory.newFactory();
 
+			System.out.println(connection.getPesquisarCompatibilidades(urlCompatibilidade));
 			StringReader rs = new StringReader(connection.getPesquisarCompatibilidades(urlCompatibilidade));
 
 			XMLEventReader reader = factory.createXMLEventReader(rs);
 
 			Compatibilidade compatibilidade = null;
+			
 			CompatibilidadePossivel compatibilidadePossivel = null;
 			InstrumentoRegistro instrumentoPrimario = null;
 			InstrumentoRegistro instrumentoSecundario = null;
+			
+			Procedimento procedimentoPrincipal = null;
+			
 			Set<Compatibilidade> compatibilidades = new HashSet<Compatibilidade>();
 
 			while (reader.hasNext()) {
@@ -115,7 +121,84 @@ public class BSus implements Barramento {
 						compatibilidade.setCodigo(event.asCharacters().getData());
 					} else if (startElement.getName().getLocalPart().equals("CompatibilidadePossivel")) {
 						compatibilidadePossivel = new CompatibilidadePossivel();
+						
+						while (reader.hasNext()) {
+							event = reader.nextEvent();
+							if (event.isStartElement()) {
+								startElement = event.asStartElement();
+								if (startElement.getName().getLocalPart().equals("codigo")) {
+									event = reader.nextEvent();
+									compatibilidadePossivel.setCodigo(event.asCharacters().getData());
+								} else if (startElement.getName().getLocalPart().equals("InstrumentoRegistroPrincipal")) {
+									instrumentoPrimario = new InstrumentoRegistro();
+									
+									while (reader.hasNext()) {
+										event = reader.nextEvent();
+										if (event.isStartElement()) {
+											startElement = event.asStartElement();
+											if (startElement.getName().getLocalPart().equals("codigo")) {
+												event = reader.nextEvent();
+												instrumentoPrimario.setCodigo(event.asCharacters().getData());
+											} else if (startElement.getName().getLocalPart().equals("nome")) {
+												event = reader.nextEvent();
+												instrumentoPrimario.setNome(event.asCharacters().getData());
+												break;
+											}
+										}
+									}
+									
+									compatibilidadePossivel.setInstrumentoRegistroPrimario(instrumentoPrimario);
+									
+								} else if (startElement.getName().getLocalPart().equals("InstrumentoRegistroSecundario")) {
+									instrumentoSecundario = new InstrumentoRegistro();
+									
+									while (reader.hasNext()) {
+										event = reader.nextEvent();
+										if (event.isStartElement()) {
+											startElement = event.asStartElement();
+											if (startElement.getName().getLocalPart().equals("codigo")) {
+												event = reader.nextEvent();
+												instrumentoSecundario.setCodigo(event.asCharacters().getData());
+											} else if (startElement.getName().getLocalPart().equals("nome")) {
+												event = reader.nextEvent();
+												instrumentoSecundario.setNome(event.asCharacters().getData());
+												break;
+											}
+										}
+									}
+									
+									compatibilidadePossivel.setInstrumentoRegistroSecundario(instrumentoSecundario);
+									
+								} else if (startElement.getName().getLocalPart().equals("tipoCompatibilidade")) {
+									event = reader.nextEvent();
+									compatibilidadePossivel.setTipoCompatibilidade(event.asCharacters().getData());
+									break;
+								}
+							}
+						}
+						
 						compatibilidade.setCompatibilidadePossivel(compatibilidadePossivel);
+						
+					} else if (startElement.getName().getLocalPart().equals("ProcedimentoPrincipal")){
+						
+						procedimentoPrincipal = new Procedimento();
+						
+						while (reader.hasNext()) {
+							event = reader.nextEvent();
+							if (event.isStartElement()) {
+								startElement = event.asStartElement();
+								
+								if (startElement.getName().getLocalPart().equals("codigo")) {
+									event = reader.nextEvent();
+									procedimentoPrincipal.setCodigo(event.asCharacters().getData());
+								} else if (startElement.getName().getLocalPart().equals("nome")) {
+									event = reader.nextEvent();
+									procedimentoPrincipal.setNome(event.asCharacters().getData());
+								} 
+							}
+						}
+						
+						compatibilidade.setProcedimentoPrimario(procedimentoPrincipal);
 						compatibilidades.add(compatibilidade);
 					}
 				}
