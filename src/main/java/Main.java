@@ -1,7 +1,8 @@
 
+import java.util.List;
+
 import br.com.integracaobsus.impl.BSus;
 import br.com.integracaosigtap.model.CompatibilidadePossivel;
-import br.com.integracaosigtap.model.Grupo;
 
 
 /**
