@@ -1,6 +1,7 @@
 import java.util.List;
 
 import br.com.integracaobsus.impl.BSus;
+import br.com.integracaosigtap.model.CompatibilidadePossivel;
 import br.com.integracaosigtap.model.Grupo;
 
 /**
@@ -16,11 +17,15 @@ public class Main {
 
 //		bsus.pesquisarCompatibilidades();
 
-		List<Grupo> listarGrupos = bsus.listarSubGrupos();
-
-		for (Grupo grupo : listarGrupos) {
-			System.out.println(grupo);
+		List<CompatibilidadePossivel> listarCompatibilidadesPossiveis = bsus.listarCompatibilidadesPossiveis();
+		
+		for (CompatibilidadePossivel compatibilidadePossivel : listarCompatibilidadesPossiveis) {
+			System.out.println(compatibilidadePossivel);
 		}
+
+//		for (Grupo grupo : listarGrupos) {
+//			System.out.println(grupo);
+//		}
 
 //		 List<BaseProcedimento> pesquisarProcedimentos =
 //		 bsus.pesquisarProcedimentos();

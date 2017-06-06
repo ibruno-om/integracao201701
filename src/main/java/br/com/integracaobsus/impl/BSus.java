@@ -17,7 +17,9 @@ import br.com.integracaosigtap.connect.Connection;
 import br.com.integracaosigtap.connect.ConnectionSUS;
 import br.com.integracaosigtap.model.BaseProcedimento;
 import br.com.integracaosigtap.model.Compatibilidade;
+import br.com.integracaosigtap.model.CompatibilidadePossivel;
 import br.com.integracaosigtap.model.Grupo;
+import br.com.integracaosigtap.model.InstrumentoRegistro;
 
 public class BSus implements Barramento {
 
@@ -86,7 +88,7 @@ public class BSus implements Barramento {
 	@Override
 	public List<Compatibilidade> pesquisarCompatibilidades() {
 		try {
-			System.out.println(connection.getListarGrupos(urlGrupo));
+			System.out.println(connection.getPesquisarCompatibilidades(urlCompatibilidade));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -193,6 +195,98 @@ public class BSus implements Barramento {
 		}
 
 		return null;
+	}
+
+	@Override
+	public List<CompatibilidadePossivel> listarCompatibilidadesPossiveis() {
+		
+		try {
+			XMLInputFactory factory = XMLInputFactory.newFactory();
+
+			StringReader rs = new StringReader(connection.getListarCompatibilidadesPossiveis(urlCompatibilidadePossivel));
+
+			XMLEventReader reader = factory.createXMLEventReader(rs);
+
+			CompatibilidadePossivel compatibilidadePossivel = null;
+			
+			InstrumentoRegistro instrumentoPrimario = null;
+			InstrumentoRegistro instrumentoSecundario = null;
+			
+			Set<CompatibilidadePossivel> compatibilidadesPossiveis = new HashSet<CompatibilidadePossivel>();
+
+			while (reader.hasNext()) {
+				XMLEvent event = reader.nextEvent();
+
+				if (event.isStartElement()) {
+					StartElement startElement = event.asStartElement();
+
+					if (startElement.getName().getLocalPart().equals("CompatibilidadePossivel")) {
+						compatibilidadePossivel = new CompatibilidadePossivel();
+					} else if (startElement.getName().getLocalPart().equals("codigo")) {
+						event = reader.nextEvent();
+						compatibilidadePossivel.setCodigo(event.asCharacters().getData());
+					
+					} else if (startElement.getName().getLocalPart().equals("InstrumentoRegistroPrincipal")) {
+						instrumentoPrimario = new InstrumentoRegistro();
+
+						while (reader.hasNext()) {
+							event = reader.nextEvent();
+							if (event.isStartElement()) {
+								startElement = event.asStartElement();
+								if (startElement.getName().getLocalPart().equals("codigo")) {
+									event = reader.nextEvent();
+									instrumentoPrimario.setCodigo(event.asCharacters().getData());
+								} else if (startElement.getName().getLocalPart().equals("nome")) {
+									// último elemento desta estrutura
+									event = reader.nextEvent();
+									instrumentoPrimario.setNome(event.asCharacters().getData());
+									break;
+								}
+							}
+						}
+
+						compatibilidadePossivel.setInstrumentoRegistroPrimario(instrumentoPrimario);
+						
+					} else if (startElement.getName().getLocalPart().equals("InstrumentoRegistroSecundario")) {
+						instrumentoSecundario = new InstrumentoRegistro();
+
+						while (reader.hasNext()) {
+							event = reader.nextEvent();
+							if (event.isStartElement()) {
+								startElement = event.asStartElement();
+								if (startElement.getName().getLocalPart().equals("codigo")) {
+									event = reader.nextEvent();
+									instrumentoSecundario.setCodigo(event.asCharacters().getData());
+								} else if (startElement.getName().getLocalPart().equals("nome")) {
+									// último elemento desta estrutura
+									event = reader.nextEvent();
+									instrumentoSecundario.setNome(event.asCharacters().getData());
+									break;
+								}
+							}
+						}
+
+						compatibilidadePossivel.setInstrumentoRegistroSecundario(instrumentoSecundario);
+					
+					} else if (startElement.getName().getLocalPart().equals("tipoCompatibilidade")) {
+						event = reader.nextEvent();
+						compatibilidadePossivel.setTipoCompatibilidade(event.asCharacters().getData());
+						compatibilidadesPossiveis.add(compatibilidadePossivel);
+						continue;
+					}
+					
+					
+				}
+
+			}
+
+			return new ArrayList<CompatibilidadePossivel>(compatibilidadesPossiveis);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+		
 	}
 
 }
