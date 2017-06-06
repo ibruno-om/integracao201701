@@ -1,6 +1,8 @@
+import java.util.List;
 
 import br.com.integracaobsus.impl.BSus;
-import br.com.integracaosigtap.model.Grupo;
+import br.com.integracaosigtap.connect.ConnectionSUS;
+import br.com.integracaosigtap.model.Procedimento;
 
 
 /**
@@ -12,38 +14,16 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 
 		BSus bsus = new BSus();
-
 		bsus.setProperties(null);
-
-//		bsus.pesquisarCompatibilidades();
-
-		List<Grupo> listarGrupos = bsus.listarSubGrupos();
-
-		for (Grupo grupo : listarGrupos) {
-			System.out.println(grupo);
+		
+		List<Procedimento> procedimentos = bsus.getDetalharProcedimentos();
+		for(Procedimento procedimento : procedimentos){
+			System.out.println(procedimento.toString());
 		}
+		
+		//ConnectionSUS connection = new ConnectionSUS();
+		//System.out.println(connection.getDetalharProcedimentos("https://servicoshm.saude.gov.br/sigtap/ProcedimentoService/v1"));
 
-
-//		 List<BaseProcedimento> pesquisarProcedimentos =
-//		 bsus.pesquisarProcedimentos();
-//		
-//		 for (BaseProcedimento baseProcedimento : pesquisarProcedimentos) {
-//		 System.out.println(baseProcedimento);
-//		 }
-
-		// System.out.println(connection.getDetalharProcedimentos(ConnectionSUS.URL_PROCEDIMENTOS));
-
-		// System.out.println(connection.getListarCompatibilidadesPossiveis(ConnectionSUS.URL_COMPATIBILIDADE_POSSIVEIS));
-
-
-		// System.out.println(connection.getPesquisarCompatibilidades(ConnectionSUS.URL_COMPATIBILIDADE));
-
-		// System.out.println(connection.getListarGrupos(ConnectionSUS.URL_GRUPO));
-
-
-		// System.out.println(connection.getListarSubGrupos(ConnectionSUS.URL_GRUPO));
-
-		// System.out.println(connection.getListarFormaOrganizacao(ConnectionSUS.URL_GRUPO));
 
 	}
 }
