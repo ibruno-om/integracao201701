@@ -16,6 +16,7 @@ import br.com.integracaobsus.factory.Barramento;
 import br.com.integracaosigtap.connect.Connection;
 import br.com.integracaosigtap.connect.ConnectionSUS;
 import br.com.integracaosigtap.model.BaseProcedimento;
+
 import br.com.integracaosigtap.model.Compatibilidade;
 import br.com.integracaosigtap.model.CompatibilidadePossivel;
 import br.com.integracaosigtap.model.Grupo;
@@ -194,6 +195,11 @@ public class BSus implements Barramento {
 			e.printStackTrace();
 		}
 
+		return null;
+	}
+	
+	
+	public List<Grupo> pesquisarGrupos() {
 		return null;
 	}
 
