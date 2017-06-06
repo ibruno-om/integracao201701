@@ -88,13 +88,47 @@ public class BSus implements Barramento {
 
 	@Override
 	public List<Compatibilidade> pesquisarCompatibilidades() {
+
 		try {
-			System.out.println(connection.getPesquisarCompatibilidades(urlCompatibilidade));
+			XMLInputFactory factory = XMLInputFactory.newFactory();
+
+			StringReader rs = new StringReader(connection.getPesquisarCompatibilidades(urlCompatibilidade));
+
+			XMLEventReader reader = factory.createXMLEventReader(rs);
+
+			Compatibilidade compatibilidade = null;
+			CompatibilidadePossivel compatibilidadePossivel = null;
+			InstrumentoRegistro instrumentoPrimario = null;
+			InstrumentoRegistro instrumentoSecundario = null;
+			Set<Compatibilidade> compatibilidades = new HashSet<Compatibilidade>();
+
+			while (reader.hasNext()) {
+				XMLEvent event = reader.nextEvent();
+
+				if (event.isStartElement()) {
+					StartElement startElement = event.asStartElement();
+
+					if (startElement.getName().getLocalPart().equals("Compatibilidade")) {
+						compatibilidade = new Compatibilidade();
+					} else if (startElement.getName().getLocalPart().equals("codigo")) {
+						event = reader.nextEvent();
+						compatibilidade.setCodigo(event.asCharacters().getData());
+					} else if (startElement.getName().getLocalPart().equals("CompatibilidadePossivel")) {
+						compatibilidadePossivel = new CompatibilidadePossivel();
+						compatibilidade.setCompatibilidadePossivel(compatibilidadePossivel);
+						compatibilidades.add(compatibilidade);
+					}
+				}
+
+			}
+
+			return new ArrayList<Compatibilidade>(compatibilidades);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		return null;
+
 	}
 
 	@Override
@@ -197,27 +231,27 @@ public class BSus implements Barramento {
 
 		return null;
 	}
-	
-	
+
 	public List<Grupo> pesquisarGrupos() {
 		return null;
 	}
 
 	@Override
 	public List<CompatibilidadePossivel> listarCompatibilidadesPossiveis() {
-		
+
 		try {
 			XMLInputFactory factory = XMLInputFactory.newFactory();
 
-			StringReader rs = new StringReader(connection.getListarCompatibilidadesPossiveis(urlCompatibilidadePossivel));
+			StringReader rs = new StringReader(
+					connection.getListarCompatibilidadesPossiveis(urlCompatibilidadePossivel));
 
 			XMLEventReader reader = factory.createXMLEventReader(rs);
 
 			CompatibilidadePossivel compatibilidadePossivel = null;
-			
+
 			InstrumentoRegistro instrumentoPrimario = null;
 			InstrumentoRegistro instrumentoSecundario = null;
-			
+
 			Set<CompatibilidadePossivel> compatibilidadesPossiveis = new HashSet<CompatibilidadePossivel>();
 
 			while (reader.hasNext()) {
@@ -231,7 +265,7 @@ public class BSus implements Barramento {
 					} else if (startElement.getName().getLocalPart().equals("codigo")) {
 						event = reader.nextEvent();
 						compatibilidadePossivel.setCodigo(event.asCharacters().getData());
-					
+
 					} else if (startElement.getName().getLocalPart().equals("InstrumentoRegistroPrincipal")) {
 						instrumentoPrimario = new InstrumentoRegistro();
 
@@ -252,7 +286,7 @@ public class BSus implements Barramento {
 						}
 
 						compatibilidadePossivel.setInstrumentoRegistroPrimario(instrumentoPrimario);
-						
+
 					} else if (startElement.getName().getLocalPart().equals("InstrumentoRegistroSecundario")) {
 						instrumentoSecundario = new InstrumentoRegistro();
 
@@ -273,15 +307,14 @@ public class BSus implements Barramento {
 						}
 
 						compatibilidadePossivel.setInstrumentoRegistroSecundario(instrumentoSecundario);
-					
+
 					} else if (startElement.getName().getLocalPart().equals("tipoCompatibilidade")) {
 						event = reader.nextEvent();
 						compatibilidadePossivel.setTipoCompatibilidade(event.asCharacters().getData());
 						compatibilidadesPossiveis.add(compatibilidadePossivel);
 						continue;
 					}
-					
-					
+
 				}
 
 			}
@@ -292,7 +325,7 @@ public class BSus implements Barramento {
 		}
 
 		return null;
-		
+
 	}
 
 }

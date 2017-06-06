@@ -2,6 +2,7 @@
 import java.util.List;
 
 import br.com.integracaobsus.impl.BSus;
+import br.com.integracaosigtap.model.Compatibilidade;
 import br.com.integracaosigtap.model.CompatibilidadePossivel;
 
 
@@ -19,22 +20,11 @@ public class Main {
 
 //		bsus.pesquisarCompatibilidades();
 
-		List<CompatibilidadePossivel> listarCompatibilidadesPossiveis = bsus.listarCompatibilidadesPossiveis();
-		
-		for (CompatibilidadePossivel compatibilidadePossivel : listarCompatibilidadesPossiveis) {
-			System.out.println(compatibilidadePossivel);
+		List<Compatibilidade> pesquisarCompatibilidades = bsus.pesquisarCompatibilidades();
+
+		for (Compatibilidade compatibilidade : pesquisarCompatibilidades) {
+			System.out.println(compatibilidade);
 		}
-
-//		for (Grupo grupo : listarGrupos) {
-//			System.out.println(grupo);
-//		}
-
-//		 List<BaseProcedimento> pesquisarProcedimentos =
-//		 bsus.pesquisarProcedimentos();
-//		
-//		 for (BaseProcedimento baseProcedimento : pesquisarProcedimentos) {
-//		 System.out.println(baseProcedimento);
-//		 }
 
 		// System.out.println(connection.getDetalharProcedimentos(ConnectionSUS.URL_PROCEDIMENTOS));
 
