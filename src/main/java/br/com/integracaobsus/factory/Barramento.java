@@ -6,7 +6,7 @@ import java.util.Properties;
 import br.com.integracaosigtap.model.BaseProcedimento;
 
 import br.com.integracaosigtap.model.Compatibilidade;
-
+import br.com.integracaosigtap.model.CompatibilidadePossivel;
 import br.com.integracaosigtap.model.Grupo;
 
 /**
@@ -37,6 +37,8 @@ public interface Barramento {
 	
 
 	public List<Compatibilidade> pesquisarCompatibilidades();
+	
+	public List<CompatibilidadePossivel> listarCompatibilidadesPossiveis();
 	
 	public List<Grupo> listarGrupos();
 	
