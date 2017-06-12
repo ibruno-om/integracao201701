@@ -1,9 +1,12 @@
+import java.util.List;
 
 import java.util.List;
 
 import br.com.integracaobsus.impl.BSus;
+
 import br.com.integracaosigtap.model.Compatibilidade;
 import br.com.integracaosigtap.model.CompatibilidadePossivel;
+
 
 
 /**
@@ -15,8 +18,8 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 
 		BSus bsus = new BSus();
-
 		bsus.setProperties(null);
+
 
 //		bsus.pesquisarCompatibilidades();
 
@@ -24,7 +27,12 @@ public class Main {
 
 		for (Compatibilidade compatibilidade : pesquisarCompatibilidades) {
 			System.out.println(compatibilidade);
+
 		}
+		
+		//ConnectionSUS connection = new ConnectionSUS();
+		//System.out.println(connection.getDetalharProcedimentos("https://servicoshm.saude.gov.br/sigtap/ProcedimentoService/v1"));
+
 
 		// System.out.println(connection.getDetalharProcedimentos(ConnectionSUS.URL_PROCEDIMENTOS));
 
@@ -39,6 +47,7 @@ public class Main {
 		// System.out.println(connection.getListarSubGrupos(ConnectionSUS.URL_GRUPO));
 
 		// System.out.println(connection.getListarFormaOrganizacao(ConnectionSUS.URL_GRUPO));
+
 
 	}
 }

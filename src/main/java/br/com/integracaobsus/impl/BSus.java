@@ -18,9 +18,11 @@ import br.com.integracaosigtap.connect.ConnectionSUS;
 import br.com.integracaosigtap.model.BaseProcedimento;
 
 import br.com.integracaosigtap.model.Compatibilidade;
+
 import br.com.integracaosigtap.model.CompatibilidadePossivel;
 import br.com.integracaosigtap.model.Grupo;
 import br.com.integracaosigtap.model.InstrumentoRegistro;
+
 import br.com.integracaosigtap.model.Procedimento;
 
 public class BSus implements Barramento {
@@ -87,7 +89,6 @@ public class BSus implements Barramento {
 		return null;
 	}
 
-	@Override
 	public List<Compatibilidade> pesquisarCompatibilidades() {
 
 		try {
@@ -214,7 +215,6 @@ public class BSus implements Barramento {
 
 	}
 
-	@Override
 	public List<Grupo> listarGrupos() {
 		try {
 			XMLInputFactory factory = XMLInputFactory.newFactory();
@@ -254,7 +254,6 @@ public class BSus implements Barramento {
 		return null;
 	}
 
-	@Override
 	public List<Grupo> listarSubGrupos() {
 		try {
 			XMLInputFactory factory = XMLInputFactory.newFactory();
@@ -316,6 +315,102 @@ public class BSus implements Barramento {
 	}
 
 	public List<Grupo> pesquisarGrupos() {
+		return null;
+	}
+	
+	
+	public List<Procedimento> getDetalharProcedimentos(){
+		try {
+			XMLInputFactory fabrica = XMLInputFactory.newFactory();
+
+			StringReader rs = new StringReader(connection.getDetalharProcedimentos(urlProcedimento));
+			System.out.println(connection.getDetalharProcedimentos(urlProcedimento));
+
+			XMLEventReader reader = fabrica.createXMLEventReader(rs);
+
+			Procedimento procedimento = null;
+			FormaOrganizacao formaOrganizacao = null;
+			Grupo subGrupo = null;
+			Grupo grupo = null;
+			
+			Set<Procedimento> procedimentos = new HashSet<Procedimento>();
+
+			while (reader.hasNext()) {
+				XMLEvent event = reader.nextEvent();
+
+				if (event.isStartElement()) {
+					StartElement startElement = event.asStartElement();
+
+					if (startElement.getName().getLocalPart().equals("Procedimento")) {
+						procedimento = new Procedimento();
+					} else if (startElement.getName().getLocalPart().equals("codigo")) {
+						event = reader.nextEvent();
+						procedimento.setCodigo(event.asCharacters().getData());
+					} else if (startElement.getName().getLocalPart().equals("nome")) {
+						event = reader.nextEvent();
+						procedimento.setNome(event.asCharacters().getData());
+					} else if (startElement.getName().getLocalPart().equals("FormaOrganizacao")) {
+						
+						formaOrganizacao = new FormaOrganizacao();
+						while (reader.hasNext()) {
+							event = reader.nextEvent();
+							if (event.isStartElement()) {
+								startElement = event.asStartElement();
+								if (startElement.getName().getLocalPart().equals("codigo")) {
+									event = reader.nextEvent();
+									formaOrganizacao.setCodigo(event.asCharacters().getData());
+								} else if (startElement.getName().getLocalPart().equals("nome")) {
+									event = reader.nextEvent();
+									formaOrganizacao.setNome(event.asCharacters().getData());
+								} else if (startElement.getName().getLocalPart().equals("Subgrupo")){
+									
+									subGrupo = new Grupo();
+									while (reader.hasNext()) {
+										event = reader.nextEvent();
+										if (event.isStartElement()) {
+											startElement = event.asStartElement();
+											if (startElement.getName().getLocalPart().equals("codigo")) {
+												event = reader.nextEvent();
+												subGrupo.setCodigo(event.asCharacters().getData());
+											} else if (startElement.getName().getLocalPart().equals("nome")) {
+												event = reader.nextEvent();
+												subGrupo.setNome(event.asCharacters().getData());
+											} else if (startElement.getName().getLocalPart().equals("Subgrupo")){
+												
+												grupo = new Grupo();
+												while (reader.hasNext()) {
+													event = reader.nextEvent();
+													if (event.isStartElement()) {
+														startElement = event.asStartElement();
+														if (startElement.getName().getLocalPart().equals("codigo")) {
+															event = reader.nextEvent();
+															subGrupo.setCodigo(event.asCharacters().getData());
+														} else if (startElement.getName().getLocalPart().equals("nome")) {
+															event = reader.nextEvent();
+															subGrupo.setNome(event.asCharacters().getData());
+															break;
+														}
+													}
+												}
+												break;
+											}
+										}
+									}
+									break;
+								}
+							}
+						}
+						procedimentos.add(procedimento);
+					}
+				}
+
+			}
+
+			return new ArrayList<Procedimento>(procedimentos);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return null;
 	}
 
