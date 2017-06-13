@@ -16,13 +16,11 @@ import br.com.integracaobsus.factory.Barramento;
 import br.com.integracaosigtap.connect.Connection;
 import br.com.integracaosigtap.connect.ConnectionSUS;
 import br.com.integracaosigtap.model.BaseProcedimento;
-
 import br.com.integracaosigtap.model.Compatibilidade;
-
 import br.com.integracaosigtap.model.CompatibilidadePossivel;
+import br.com.integracaosigtap.model.FormaOrganizacao;
 import br.com.integracaosigtap.model.Grupo;
 import br.com.integracaosigtap.model.InstrumentoRegistro;
-
 import br.com.integracaosigtap.model.Procedimento;
 
 public class BSus implements Barramento {
@@ -414,7 +412,6 @@ public class BSus implements Barramento {
 		return null;
 	}
 
-	@Override
 	public List<CompatibilidadePossivel> listarCompatibilidadesPossiveis() {
 
 		try {
