@@ -218,6 +218,7 @@ public class BSus implements Barramento {
 			XMLInputFactory factory = XMLInputFactory.newFactory();
 
 			StringReader rs = new StringReader(connection.getListarGrupos(urlGrupo));
+			System.out.println(connection.getListarGrupos(urlGrupo));
 
 			XMLEventReader reader = factory.createXMLEventReader(rs);
 
