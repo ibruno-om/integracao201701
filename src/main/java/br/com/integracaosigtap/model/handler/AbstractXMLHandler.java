@@ -54,6 +54,8 @@ public abstract class AbstractXMLHandler<T> extends DefaultHandler {
 	 *            the resultList to set
 	 */
 	public void setResultList(List<T> resultList) {
+		if (this.resultList == null)
+			this.resultList = new ArrayList<T>();
 		this.resultList = resultList;
 	}
 	

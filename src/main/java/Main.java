@@ -34,7 +34,7 @@ public class Main {
 				.getBytes(StandardCharsets.UTF_8)), handler);
 
 		// Printing the list of employees obtained from XML
-		for (Grupo emp : handler.getList()) {
+		for (Grupo emp : handler.getResultList()) {
 			System.out.println(emp.getCodigo() + "-" + emp.getNome());
 		}
 
