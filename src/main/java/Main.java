@@ -7,7 +7,7 @@ import javax.xml.parsers.SAXParserFactory;
 import br.com.integracaobsus.impl.BSus;
 import br.com.integracaosigtap.connect.ConnectionSUS;
 import br.com.integracaosigtap.model.Grupo;
-import br.com.integracaosigtap.model.handler.GrupoHandler;
+import br.com.integracaosigtap.model.handler.SubGrupoHandler;
 
 /**
  * Created by astr1x on 16/04/17.
@@ -24,10 +24,10 @@ public class Main {
 
 		SAXParserFactory parserFactor = SAXParserFactory.newInstance();
 		SAXParser parser = parserFactor.newSAXParser();
-		GrupoHandler handler = new GrupoHandler();
+		SubGrupoHandler handler = new SubGrupoHandler();
 
 		String xml = new ConnectionSUS()
-				.getListarGrupos("https://servicoshm.saude.gov.br/sigtap/NivelAgregacaoService/v1");
+				.getListarSubGrupos("https://servicoshm.saude.gov.br/sigtap/NivelAgregacaoService/v1");
 		
 		System.out.println(xml);
 		parser.parse(new ByteArrayInputStream(xml

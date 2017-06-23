@@ -7,7 +7,9 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public abstract class AbstractXMLHandler<T> extends DefaultHandler {
+import br.com.integracaosigtap.model.Model;
+
+public abstract class AbstractXMLHandler<T extends Model> extends DefaultHandler {
 
 	private List<T> resultList;
 	private String content;
@@ -38,6 +40,22 @@ public abstract class AbstractXMLHandler<T> extends DefaultHandler {
 	}
 
 	@Override
+	public void endElement(String uri, String localName, String qName) throws SAXException {
+		if (qName != null && qName.equals(this.headerModel)) {
+			getResultList().add(model);
+		} else {
+			switch (qName) {
+			case "ns4:codigo":
+				model.setCodigo(getContent());
+				break;
+			case "ns4:nome":
+				model.setNome(getContent());
+				break;
+			}
+		}
+	}
+
+	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException {
 		this.content = String.copyValueOf(ch, start, length).trim();
 	}
@@ -58,11 +76,11 @@ public abstract class AbstractXMLHandler<T> extends DefaultHandler {
 			this.resultList = new ArrayList<T>();
 		this.resultList = resultList;
 	}
-	
+
 	/**
 	 * @return
 	 */
-	public String getContent(){
+	public String getContent() {
 		return this.content;
 	}
 
