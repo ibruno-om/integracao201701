@@ -299,7 +299,7 @@ public class BSus implements Barramento {
 							}
 						}
 
-						subGrupo.setGrupo(grupo);
+						//subGrupo.setGrupo(grupo);
 					}
 				}
 

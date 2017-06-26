@@ -1,31 +1,44 @@
 package br.com.integracaosigtap.model.handler;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import br.com.integracaosigtap.model.Model;
+import br.com.integracaosigtap.model.handler.annotation.XMLAttribute;
+import br.com.integracaosigtap.model.handler.annotation.XMLClass;
 
 public abstract class AbstractXMLHandler<T extends Model> extends DefaultHandler {
 
-	private List<T> resultList;
+	private Set<T> resultList;
 	private String content;
-	private String headerModel = "";
+	private XMLClass xmlClass;
 	private Class<T> classType;
+	private Object modelIn;
+	private Field fieldIn;
+	private XMLAttribute attributeIn;
 
 	protected T model;
 
-	public AbstractXMLHandler(Class<T> classType, String headerModel) throws NullPointerException {
+	public AbstractXMLHandler(Class<T> classType) throws NullPointerException {
 
 		if (classType == null) {
 			throw new NullPointerException("Não se pode enviar um classType Nulo");
 		}
 
-		this.resultList = new ArrayList<T>();
-		this.headerModel = headerModel;
+		this.xmlClass = classType.getAnnotation(XMLClass.class);
+
+		if (xmlClass == null) {
+			throw new NullPointerException("Classe não anotada com XMLClass");
+		}
+
+		this.resultList = new HashSet<T>();
 		this.classType = classType;
 		try {
 			model = classType.newInstance();
@@ -41,13 +54,30 @@ public abstract class AbstractXMLHandler<T extends Model> extends DefaultHandler
 
 		if (qName != null) {
 
-			if (qName.equals(this.headerModel)) {
+			if (qName.equals(this.xmlClass.nodeName())) {
 				try {
-					model = classType.newInstance();
+					this.model = this.classType.newInstance();
+					this.modelIn = this.model;
 				} catch (InstantiationException e) {
 					e.printStackTrace();
 				} catch (IllegalAccessException e) {
 					e.printStackTrace();
+				}
+			} else {
+				for (Field field : this.classType.getDeclaredFields()) {
+					XMLAttribute attribute = field.getAnnotation(XMLAttribute.class);
+
+					if (attribute != null) {
+						if (qName.equals(attribute.fieldName())) {
+							try {
+								this.modelIn = field.getType().newInstance();
+								this.attributeIn = attribute;
+								this.fieldIn = field;
+							} catch (InstantiationException | IllegalAccessException e) {
+								e.printStackTrace();
+							}
+						}
+					}
 				}
 			}
 		}
@@ -56,16 +86,37 @@ public abstract class AbstractXMLHandler<T extends Model> extends DefaultHandler
 
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
-		if (qName != null && qName.equals(this.headerModel)) {
-			getResultList().add(model);
-		} else {
-			switch (qName) {
-			case "ns4:codigo":
-				model.setCodigo(getContent());
-				break;
-			case "ns4:nome":
-				model.setNome(getContent());
-				break;
+		if (qName != null) {
+			if (qName.equals(this.xmlClass.nodeName())) {
+				this.resultList.add(model);
+			} else {
+				if (this.model == this.modelIn) {
+					if (qName.equals(this.xmlClass.codigo())) {
+						model.setCodigo(getContent());
+					} else if (qName.equals(this.xmlClass.nome())) {
+						model.setNome(getContent());
+					}
+				} else {
+					if (this.attributeIn != null) {
+						XMLClass annotation = this.modelIn.getClass().getAnnotation(XMLClass.class);
+						if (qName.equals(this.attributeIn.fieldName())) {
+							try {
+								this.fieldIn.setAccessible(true);
+								this.fieldIn.set(this.model, this.modelIn);
+								this.fieldIn.setAccessible(false);
+								
+								this.fieldIn = null;
+								this.attributeIn = null;
+							} catch (IllegalArgumentException | IllegalAccessException e) {
+								e.printStackTrace();
+							}
+						} else if (qName.equals(annotation.codigo())) {
+							((Model) this.modelIn).setCodigo(getContent());
+						} else if (qName.equals(annotation.nome())) {
+							((Model) this.modelIn).setNome(getContent());
+						}
+					}
+				}
 			}
 		}
 	}
@@ -79,7 +130,7 @@ public abstract class AbstractXMLHandler<T extends Model> extends DefaultHandler
 	 * @return the resultList
 	 */
 	public List<T> getResultList() {
-		return resultList;
+		return new ArrayList<T>(resultList);
 	}
 
 	/**
@@ -89,15 +140,6 @@ public abstract class AbstractXMLHandler<T extends Model> extends DefaultHandler
 		return this.model;
 	}
 
-	/**
-	 * @param resultList
-	 *            the resultList to set
-	 */
-	public void setResultList(List<T> resultList) {
-		if (this.resultList == null)
-			this.resultList = new ArrayList<T>();
-		this.resultList = resultList;
-	}
 
 	/**
 	 * @return

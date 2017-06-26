@@ -6,7 +6,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import br.com.integracaobsus.impl.BSus;
 import br.com.integracaosigtap.connect.ConnectionSUS;
-import br.com.integracaosigtap.model.Grupo;
+import br.com.integracaosigtap.model.SubGrupo;
 import br.com.integracaosigtap.model.handler.SubGrupoHandler;
 
 /**
@@ -34,7 +34,7 @@ public class Main {
 				.getBytes(StandardCharsets.UTF_8)), handler);
 
 		// Printing the list of employees obtained from XML
-		for (Grupo emp : handler.getResultList()) {
+		for (SubGrupo emp : handler.getResultList()) {
 			System.out.println(emp.getCodigo() + "-" + emp.getNome());
 		}
 
