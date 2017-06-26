@@ -11,21 +11,27 @@ import org.junit.Assert;
  */
 public class RequestListarGruposTest {
 
-	private String URL_COMPATIBILIDADES = "https://servicoshm.saude.gov.br/sigtap/CompatibilidadePossivelService/v1";
+	private String URLGRUPO = "https://servicoshm.saude.gov.br/sigtap/NivelAgregacaoService/v1";
 
 	@Test
 	public void testListarGrupos() throws Exception {
 		Connection connection = new RequestListarGrupos();
-		String resposta = connection.getListarGrupos(URL_COMPATIBILIDADES);
+		String resposta = connection.getListarGrupos(URLGRUPO);
 		
-		String esperado = "requestListarGrupos";
+		String esperado = "niv:responseListarGrupos";
 		Assert.assertTrue(resposta.contains(esperado));
+		
+		esperado = "grup:Grupo";
+		Assert.assertTrue(resposta.contains(esperado));
+		
+		esperado = "sub:Subgrupo";
+		Assert.assertFalse(resposta.contains(esperado));
 		
 	}
 	@Test
 	public void testListarGruposErro() throws Exception {
 		Connection connection = new RequestListarGrupos();
-		String resposta = connection.getListarGrupos(URL_COMPATIBILIDADES);
+		String resposta = connection.getListarGrupos(URLGRUPO);
 		
 		String esperado = "requestNotMatch";
 		Assert.assertFalse(resposta.contains(esperado));

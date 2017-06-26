@@ -5,25 +5,26 @@ import org.junit.Test;
 
 public class RequestListarCompatibilidadesPossiveisTest {
 	
-	private String URL_PROCEDIMENTOS = "https://servicoshm.saude.gov.br/sigtap/ProcedimentoService/v1";
-
+	private String URL_COMPATIBILIDADE_POSSIVEIS = "https://servicoshm.saude.gov.br/sigtap/CompatibilidadePossivelService/v1";
+	
 	@Test
 	public void testListarCompatibilidadesPossiveisSuccesso() throws Exception {
 		Connection connection = new RequestListarCompatibilidadesPossiveis();
-		String resposta = connection.getListarCompatibilidadesPossiveis(URL_PROCEDIMENTOS);
+		String resposta = connection.getListarCompatibilidadesPossiveis(URL_COMPATIBILIDADE_POSSIVEIS);
 		
 
-		String esperado = "requestListarCompatibilidadesPossiveis";
+		System.out.println("ISSO QUE E ESPERADO PORRA \n\n\n\n" + resposta);
+		String esperado = "responseListarCompatibilidadesPossiveis";
 		Assert.assertTrue(resposta.contains(esperado));
 		
-		esperado = "env:Fault";
+		esperado = "com1:CompatibilidadePossive";
 		Assert.assertTrue(resposta.contains(esperado));
 	}
 
 	@Test
 	public void testListarCompatibilidadesPossiveisErro() throws Exception {
 		Connection connection = new RequestListarCompatibilidadesPossiveis();
-		String resposta = connection.getListarCompatibilidadesPossiveis(URL_PROCEDIMENTOS);
+		String resposta = connection.getListarCompatibilidadesPossiveis(URL_COMPATIBILIDADE_POSSIVEIS);
 		
 		String esperado = "requestNotMatch";
 		Assert.assertFalse(resposta.contains(esperado));
