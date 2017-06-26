@@ -18,8 +18,6 @@ public class RequestListarGruposTest {
 		Connection connection = new RequestListarGrupos();
 		String resposta = connection.getListarGrupos(URL_COMPATIBILIDADES);
 		
-		System.out.println("Imprimindo o Teste a Partir daqui: \n\n\n\n" + resposta);
-		
 		String esperado = "requestListarGrupos";
 		Assert.assertTrue(resposta.contains(esperado));
 		

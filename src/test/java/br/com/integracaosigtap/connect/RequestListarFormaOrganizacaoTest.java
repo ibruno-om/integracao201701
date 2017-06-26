@@ -17,9 +17,7 @@ public class RequestListarFormaOrganizacaoTest {
 	public void testListarFormaOrganizacao() throws Exception {
 		Connection connection = new RequestListarFormaOrganizacao();
 		String resposta = connection.getListarFormaOrganizacao(URL_COMPATIBILIDADES);
-		
-		System.out.println("Imprimindo o Teste a Partir daqui: \n\n\n\n" + resposta);
-		
+
 		String esperado = "requestListarFormaOrganizacao";
 		Assert.assertTrue(resposta.contains(esperado));
 		
