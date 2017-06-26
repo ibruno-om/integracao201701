@@ -12,8 +12,6 @@ public class RequestListarCompatibilidadesPossiveisTest {
 		Connection connection = new RequestListarCompatibilidadesPossiveis();
 		String resposta = connection.getListarCompatibilidadesPossiveis(URL_COMPATIBILIDADE_POSSIVEIS);
 		
-
-		System.out.println("ISSO QUE E ESPERADO PORRA \n\n\n\n" + resposta);
 		String esperado = "responseListarCompatibilidadesPossiveis";
 		Assert.assertTrue(resposta.contains(esperado));
 		
