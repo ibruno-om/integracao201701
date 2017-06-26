@@ -22,7 +22,6 @@ public abstract class AbstractXMLHandler<T extends Model> extends DefaultHandler
 	private Class<T> classType;
 	private Object modelIn;
 	private Field fieldIn;
-	private XMLAttribute attributeIn;
 
 	protected T model;
 
@@ -52,6 +51,7 @@ public abstract class AbstractXMLHandler<T extends Model> extends DefaultHandler
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 
+
 		if (qName != null) {
 
 			if (qName.equals(this.xmlClass.nodeName())) {
@@ -71,7 +71,6 @@ public abstract class AbstractXMLHandler<T extends Model> extends DefaultHandler
 						if (qName.equals(attribute.fieldName())) {
 							try {
 								this.modelIn = field.getType().newInstance();
-								this.attributeIn = attribute;
 								this.fieldIn = field;
 							} catch (InstantiationException | IllegalAccessException e) {
 								e.printStackTrace();
@@ -97,22 +96,22 @@ public abstract class AbstractXMLHandler<T extends Model> extends DefaultHandler
 						model.setNome(getContent());
 					}
 				} else {
-					if (this.attributeIn != null) {
-						XMLClass annotation = this.modelIn.getClass().getAnnotation(XMLClass.class);
-						if (qName.equals(this.attributeIn.fieldName())) {
+					if (this.fieldIn != null && this.modelIn != null) {
+						XMLAttribute attribute = this.fieldIn.getAnnotation(XMLAttribute.class);
+						XMLClass xmlClass = this.modelIn.getClass().getAnnotation(XMLClass.class);
+						if (attribute != null && qName.equals(attribute.fieldName())) {
 							try {
 								this.fieldIn.setAccessible(true);
 								this.fieldIn.set(this.model, this.modelIn);
 								this.fieldIn.setAccessible(false);
-								
+
 								this.fieldIn = null;
-								this.attributeIn = null;
 							} catch (IllegalArgumentException | IllegalAccessException e) {
 								e.printStackTrace();
 							}
-						} else if (qName.equals(annotation.codigo())) {
+						} else if (qName.equals(xmlClass.codigo())) {
 							((Model) this.modelIn).setCodigo(getContent());
-						} else if (qName.equals(annotation.nome())) {
+						} else if (qName.equals(xmlClass.nome())) {
 							((Model) this.modelIn).setNome(getContent());
 						}
 					}
@@ -139,7 +138,6 @@ public abstract class AbstractXMLHandler<T extends Model> extends DefaultHandler
 	public T getModel() {
 		return this.model;
 	}
-
 
 	/**
 	 * @return

@@ -26,16 +26,18 @@ public class Main {
 		SAXParser parser = parserFactor.newSAXParser();
 		SubGrupoHandler handler = new SubGrupoHandler();
 
+		System.out.println(new ConnectionSUS().getPesquisarCompatibilidades("https://servicoshm.saude.gov.br/sigtap/CompatibilidadeService/v1"));
+		
 		String xml = new ConnectionSUS()
 				.getListarSubGrupos("https://servicoshm.saude.gov.br/sigtap/NivelAgregacaoService/v1");
 		
-		System.out.println(xml);
+//		System.out.println(xml);
 		parser.parse(new ByteArrayInputStream(xml
 				.getBytes(StandardCharsets.UTF_8)), handler);
 
 		// Printing the list of employees obtained from XML
 		for (SubGrupo emp : handler.getResultList()) {
-			System.out.println(emp.getCodigo() + "-" + emp.getNome());
+			System.out.println(emp.getCodigo() + "-" + emp.getNome() + "-" + emp.getGrupoPai().getCodigo());
 		}
 
 		// List<Compatibilidade> pesquisarCompatibilidades =
