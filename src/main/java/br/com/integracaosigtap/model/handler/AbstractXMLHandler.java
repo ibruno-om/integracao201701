@@ -18,22 +18,37 @@ public abstract class AbstractXMLHandler<T extends Model> extends DefaultHandler
 
 	protected T model;
 
-	public AbstractXMLHandler(Class<T> classType, String headerModel) {
+	public AbstractXMLHandler(Class<T> classType, String headerModel) throws NullPointerException {
+
+		if (classType == null) {
+			throw new NullPointerException("Não se pode enviar um classType Nulo");
+		}
+
 		this.resultList = new ArrayList<T>();
 		this.headerModel = headerModel;
 		this.classType = classType;
+		try {
+			model = classType.newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 
-		if (qName != null && qName.equals(this.headerModel)) {
-			try {
-				model = classType.newInstance();
-			} catch (InstantiationException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
+		if (qName != null) {
+
+			if (qName.equals(this.headerModel)) {
+				try {
+					model = classType.newInstance();
+				} catch (InstantiationException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 
@@ -65,6 +80,13 @@ public abstract class AbstractXMLHandler<T extends Model> extends DefaultHandler
 	 */
 	public List<T> getResultList() {
 		return resultList;
+	}
+
+	/**
+	 * @return Modelo da Iteração
+	 */
+	public T getModel() {
+		return this.model;
 	}
 
 	/**
