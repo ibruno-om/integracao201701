@@ -11,21 +11,21 @@ import org.junit.Assert;
  */
 public class RequestListarFormaOrganizacaoTest {
 
-	private String URL_COMPATIBILIDADES = "https://servicoshm.saude.gov.br/sigtap/CompatibilidadePossivelService/v1";
+	private String URL_ORGANIZACOES = "https://servicoshm.saude.gov.br/sigtap/NivelAgregacaoService/v1";
 
 	@Test
 	public void testListarFormaOrganizacao() throws Exception {
 		Connection connection = new RequestListarFormaOrganizacao();
-		String resposta = connection.getListarFormaOrganizacao(URL_COMPATIBILIDADES);
+		String resposta = connection.getListarFormaOrganizacao(URL_ORGANIZACOES);
 
-		String esperado = "requestListarFormaOrganizacao";
+		String esperado = "for:FormaOrganizacao";
 		Assert.assertTrue(resposta.contains(esperado));
 		
 	}
 	@Test
 	public void testListarFormaOrganizacaoErro() throws Exception {
 		Connection connection = new RequestListarFormaOrganizacao();
-		String resposta = connection.getListarFormaOrganizacao(URL_COMPATIBILIDADES);
+		String resposta = connection.getListarFormaOrganizacao(URL_ORGANIZACOES);
 		
 		String esperado = "requestNotMatch";
 		Assert.assertFalse(resposta.contains(esperado));
