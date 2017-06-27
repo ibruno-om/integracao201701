@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Properties;
 
 import br.com.integracaosigtap.model.BaseProcedimento;
-
 import br.com.integracaosigtap.model.Compatibilidade;
 import br.com.integracaosigtap.model.CompatibilidadePossivel;
 import br.com.integracaosigtap.model.Grupo;
+import br.com.integracaosigtap.model.SubGrupo;
 
 /**
  * Interface de Barramento BSUS
@@ -42,6 +42,6 @@ public interface Barramento {
 	
 	public List<Grupo> listarGrupos();
 	
-	public List<Grupo> listarSubGrupos();
+	public List<SubGrupo> listarSubGrupos();
 
 }

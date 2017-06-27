@@ -59,4 +59,14 @@ public class SubGrupo extends Grupo {
 		return super.equals(obj);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "SubGrupo [grupoPai=" + grupoPai + ", getNome()=" + getNome() + ", getCodigo()=" + getCodigo() + "]";
+	}
+	
+	
+
 }

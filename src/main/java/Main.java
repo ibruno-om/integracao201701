@@ -6,8 +6,8 @@ import javax.xml.parsers.SAXParserFactory;
 
 import br.com.integracaobsus.impl.BSus;
 import br.com.integracaosigtap.connect.ConnectionSUS;
-import br.com.integracaosigtap.model.Compatibilidade;
-import br.com.integracaosigtap.model.handler.GrupoHandler;
+import br.com.integracaosigtap.model.SubGrupo;
+import br.com.integracaosigtap.model.handler.SubGrupoHandler;
 
 /**
  * Created by astr1x on 16/04/17.
@@ -21,7 +21,7 @@ public class Main {
 
 		SAXParserFactory parserFactor = SAXParserFactory.newInstance();
 		SAXParser parser = parserFactor.newSAXParser();
-		GrupoHandler handler = new GrupoHandler();
+		SubGrupoHandler handler = new SubGrupoHandler();
 
 		String xml = new ConnectionSUS()
 				.getListarGrupos("https://servicoshm.saude.gov.br/sigtap/NivelAgregacaoService/v1");
@@ -30,7 +30,7 @@ public class Main {
 
 		parser.parse(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), handler);
 
-		for (Compatibilidade emp : bsus.pesquisarCompatibilidades()) {
+		for (SubGrupo emp : bsus.listarSubGrupos()) {
 			System.out.println(emp);
 		}
 

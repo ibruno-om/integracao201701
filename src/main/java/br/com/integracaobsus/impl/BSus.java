@@ -26,8 +26,10 @@ import br.com.integracaosigtap.model.FormaOrganizacao;
 import br.com.integracaosigtap.model.Grupo;
 import br.com.integracaosigtap.model.InstrumentoRegistro;
 import br.com.integracaosigtap.model.Procedimento;
+import br.com.integracaosigtap.model.SubGrupo;
 import br.com.integracaosigtap.model.handler.CompatibilidadeHandler;
 import br.com.integracaosigtap.model.handler.GrupoHandler;
+import br.com.integracaosigtap.model.handler.SubGrupoHandler;
 
 public class BSus implements Barramento {
 
@@ -136,59 +138,18 @@ public class BSus implements Barramento {
 		return null;
 	}
 
-	public List<Grupo> listarSubGrupos() {
+	public List<SubGrupo> listarSubGrupos() {
 		try {
-			XMLInputFactory factory = XMLInputFactory.newFactory();
+			SAXParserFactory parserFactor = SAXParserFactory.newInstance();
+			SAXParser parser = parserFactor.newSAXParser();
+			SubGrupoHandler handler = new SubGrupoHandler();
 
-			StringReader rs = new StringReader(connection.getListarSubGrupos(urlGrupo));
+			String xml = connection.getListarSubGrupos(urlGrupo);
+			System.out.println(xml);
 
-			XMLEventReader reader = factory.createXMLEventReader(rs);
+			parser.parse(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), handler);
 
-			Grupo subGrupo = null;
-			Grupo grupo = null;
-			Set<Grupo> grupos = new HashSet<Grupo>();
-
-			while (reader.hasNext()) {
-				XMLEvent event = reader.nextEvent();
-
-				if (event.isStartElement()) {
-					StartElement startElement = event.asStartElement();
-
-					if (startElement.getName().getLocalPart().equals("Subgrupo")) {
-						subGrupo = new Grupo();
-					} else if (startElement.getName().getLocalPart().equals("codigo")) {
-						event = reader.nextEvent();
-						subGrupo.setCodigo(event.asCharacters().getData());
-					} else if (startElement.getName().getLocalPart().equals("nome")) {
-						event = reader.nextEvent();
-						subGrupo.setNome(event.asCharacters().getData());
-						grupos.add(subGrupo);
-					} else if (startElement.getName().getLocalPart().equals("Grupo")) {
-						grupo = new Grupo();
-
-						while (reader.hasNext()) {
-							event = reader.nextEvent();
-							if (event.isStartElement()) {
-								startElement = event.asStartElement();
-								if (startElement.getName().getLocalPart().equals("codigo")) {
-									event = reader.nextEvent();
-									grupo.setCodigo(event.asCharacters().getData());
-								} else if (startElement.getName().getLocalPart().equals("nome")) {
-									// último elemento desta estrutura
-									event = reader.nextEvent();
-									grupo.setNome(event.asCharacters().getData());
-									break;
-								}
-							}
-						}
-
-						// subGrupo.setGrupo(grupo);
-					}
-				}
-
-			}
-
-			return new ArrayList<Grupo>(grupos);
+			return handler.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
