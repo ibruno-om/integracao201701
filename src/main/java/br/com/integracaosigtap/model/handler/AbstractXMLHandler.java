@@ -22,6 +22,7 @@ public abstract class AbstractXMLHandler<T extends Model> extends DefaultHandler
 	private Class<T> classType;
 	private Object modelIn;
 	private Field fieldIn;
+	private Object parentField;
 
 	protected T model;
 
@@ -39,24 +40,18 @@ public abstract class AbstractXMLHandler<T extends Model> extends DefaultHandler
 
 		this.resultList = new HashSet<T>();
 		this.classType = classType;
-		try {
-			model = classType.newInstance();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
+
 	}
 
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-
 
 		if (qName != null) {
 
 			if (qName.equals(this.xmlClass.nodeName())) {
 				try {
 					this.model = this.classType.newInstance();
+					setInstanceXML(this.model);
 					this.modelIn = this.model;
 				} catch (InstantiationException e) {
 					e.printStackTrace();
@@ -64,23 +59,54 @@ public abstract class AbstractXMLHandler<T extends Model> extends DefaultHandler
 					e.printStackTrace();
 				}
 			} else {
-				for (Field field : this.classType.getDeclaredFields()) {
-					XMLAttribute attribute = field.getAnnotation(XMLAttribute.class);
-
-					if (attribute != null) {
-						if (qName.equals(attribute.fieldName())) {
-							try {
-								this.modelIn = field.getType().newInstance();
-								this.fieldIn = field;
-							} catch (InstantiationException | IllegalAccessException e) {
-								e.printStackTrace();
-							}
-						}
-					}
+				if (this.model != null) {
+					setFieldAndModel(qName, this.classType, this.model);
 				}
 			}
 		}
 
+	}
+
+	private void setInstanceXML(Object model) {
+		for (Field field : model.getClass().getDeclaredFields()) {
+			if (field.getType().getAnnotation(XMLClass.class) != null) {
+				try {
+					Object newInstance = field.getType().newInstance();
+					System.out.println(field.getType().getName());
+					field.setAccessible(true);
+					field.set(model, newInstance);
+					setInstanceXML(newInstance);
+				} catch (InstantiationException | IllegalAccessException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	private void setFieldAndModel(String qName, Class<?> classType, Object parentField) {
+
+		try {
+			for (Field field : classType.getDeclaredFields()) {
+
+				XMLAttribute attribute = field.getAnnotation(XMLAttribute.class);
+
+				if (attribute != null) {
+					field.setAccessible(true);
+					if (qName.equals(attribute.fieldName())) {
+						this.fieldIn = field;
+						this.parentField = parentField;
+						this.modelIn = field.get(this.parentField);
+					} else {
+						if (field.getType().getAnnotation(XMLClass.class) != null) {
+							setFieldAndModel(qName, field.getType(), field.get(parentField));
+						}
+					}
+					field.setAccessible(false);
+				}
+			}
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -96,23 +122,32 @@ public abstract class AbstractXMLHandler<T extends Model> extends DefaultHandler
 						model.setNome(getContent());
 					}
 				} else {
-					if (this.fieldIn != null && this.modelIn != null) {
-						XMLAttribute attribute = this.fieldIn.getAnnotation(XMLAttribute.class);
-						XMLClass xmlClass = this.modelIn.getClass().getAnnotation(XMLClass.class);
-						if (attribute != null && qName.equals(attribute.fieldName())) {
-							try {
-								this.fieldIn.setAccessible(true);
-								this.fieldIn.set(this.model, this.modelIn);
-								this.fieldIn.setAccessible(false);
+					if (this.fieldIn != null) {
+						try {
+							this.fieldIn.setAccessible(true);
 
-								this.fieldIn = null;
-							} catch (IllegalArgumentException | IllegalAccessException e) {
-								e.printStackTrace();
+							XMLAttribute attribute = this.fieldIn.getAnnotation(XMLAttribute.class);
+							XMLClass xmlClass = this.fieldIn.getType().getAnnotation(XMLClass.class);
+
+							if (attribute != null && qName.equals(attribute.fieldName())) {
+								if (Number.class.isAssignableFrom(this.fieldIn.getType())) {
+									this.fieldIn.set(this.parentField, new Integer(getContent()));
+								} else if (String.class.isAssignableFrom(this.fieldIn.getType())) {
+									this.fieldIn.set(this.parentField, getContent());
+								}
+							} else if (xmlClass != null) {
+
+								if (qName.equals(xmlClass.codigo())) {
+									((Model) this.fieldIn.get(this.parentField)).setCodigo(getContent());
+								} else if (qName.equals(xmlClass.nome())) {
+									((Model) this.fieldIn.get(this.parentField)).setNome(getContent());
+								}
+
 							}
-						} else if (qName.equals(xmlClass.codigo())) {
-							((Model) this.modelIn).setCodigo(getContent());
-						} else if (qName.equals(xmlClass.nome())) {
-							((Model) this.modelIn).setNome(getContent());
+						} catch (IllegalArgumentException | IllegalAccessException e) {
+							e.printStackTrace();
+						} finally {
+							this.fieldIn.setAccessible(false);
 						}
 					}
 				}

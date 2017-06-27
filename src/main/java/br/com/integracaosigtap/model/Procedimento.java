@@ -3,184 +3,166 @@ package br.com.integracaosigtap.model;
 import java.math.BigDecimal;
 import java.util.List;
 
+import br.com.integracaosigtap.model.handler.annotation.XMLClass;
+
 /**
  * Created by astr1x on 21/05/17.
  */
-public class Procedimento extends Model{
+@XMLClass(nodeName = "ns9:ProcedimentoPrincipal", codigo = "ns5:codigo", nome = "ns5:nome")
+public class Procedimento extends Model {
 
-    private FormaOrganizacao formaOrganizacao;
-    private String competenciaInicial;
-    private String finalidadePublicacao;
-    private DocumentoPublicacao documentoPublicacao;
-    private List<ModalidadeAtendimento> modalidadesAtendimento;
-    private List<InstrumentoRegistro> instrumentosRegistro;
-    private List<AtributoComplementar> atributosComplementares;
-    private String complexidade;
-    private TipoFinanciamento tipoFinanciamento;
-    private SexoPermitido sexoPermitido;
-    private IdadePermitida idadeMinimaPermitida;
-    private IdadePermitida idadeMaximaPermitida;
-    private BigDecimal valorSH;
-    private BigDecimal valorSA;
-    private BigDecimal valorSP;
-    private String descricao;
-    private DetalheAdicional detalheAdicional;
+	private FormaOrganizacao formaOrganizacao;
+	private String competenciaInicial;
+	private String finalidadePublicacao;
+	private DocumentoPublicacao documentoPublicacao;
+	private List<ModalidadeAtendimento> modalidadesAtendimento;
+	private List<InstrumentoRegistro> instrumentosRegistro;
+	private List<AtributoComplementar> atributosComplementares;
+	private String complexidade;
+	private TipoFinanciamento tipoFinanciamento;
+	private SexoPermitido sexoPermitido;
+	private IdadePermitida idadeMinimaPermitida;
+	private IdadePermitida idadeMaximaPermitida;
+	private BigDecimal valorSH;
+	private BigDecimal valorSA;
+	private BigDecimal valorSP;
+	private String descricao;
+	private DetalheAdicional detalheAdicional;
 
-    //TODO atributos adicionais do xml que possivelmente serao usados, podem ser simples ou compostos
-    //    <ns6:CIDsVinculados/>
-    //    <ns6:CBOsVinculados/>
-    //    <ns6:CategoriasCBOVinculadas/>
-    //    <ns6:TiposLeitoVinculados/>
-    //    <ns6:ServicosClassificacoesVinculados/>
-    //    <ns6:HabilitacoesVinculadas/>
-    //    <ns6:GruposHabilitacaoVinculados/>
-    //    <ns6:IncrementosVinculados/>
-    //    <ns6:ComponentesRedesVinculados/>
-    //    <ns6:OrigensSIGTAP/>
-    //    <ns6:OrigensSIASIH/>
-    //    <ns6:RegrasCondicionadasVinculadas/>
-    //    <ns6:RENASESVinculadas/>
-    //    <ns6:TUSSVinculadas/>
+	public FormaOrganizacao getFormaOrganizacao() {
+		return formaOrganizacao;
+	}
 
-    public Procedimento(){
+	public void setFormaOrganizacao(FormaOrganizacao formaOrganizacao) {
+		this.formaOrganizacao = formaOrganizacao;
+	}
 
-    }
+	public String getCompetenciaInicial() {
+		return competenciaInicial;
+	}
 
-    public FormaOrganizacao getFormaOrganizacao() {
-        return formaOrganizacao;
-    }
+	public void setCompetenciaInicial(String competenciaInicial) {
+		this.competenciaInicial = competenciaInicial;
+	}
 
-    public void setFormaOrganizacao(FormaOrganizacao formaOrganizacao) {
-        this.formaOrganizacao = formaOrganizacao;
-    }
+	public String getFinalidadePublicacao() {
+		return finalidadePublicacao;
+	}
 
-    public String getCompetenciaInicial() {
-        return competenciaInicial;
-    }
+	public void setFinalidadePublicacao(String finalidadePublicacao) {
+		this.finalidadePublicacao = finalidadePublicacao;
+	}
 
-    public void setCompetenciaInicial(String competenciaInicial) {
-        this.competenciaInicial = competenciaInicial;
-    }
+	public DocumentoPublicacao getDocumentoPublicacao() {
+		return documentoPublicacao;
+	}
 
-    public String getFinalidadePublicacao() {
-        return finalidadePublicacao;
-    }
+	public void setDocumentoPublicacao(DocumentoPublicacao documentoPublicacao) {
+		this.documentoPublicacao = documentoPublicacao;
+	}
 
-    public void setFinalidadePublicacao(String finalidadePublicacao) {
-        this.finalidadePublicacao = finalidadePublicacao;
-    }
+	public List<ModalidadeAtendimento> getModalidadesAtendimento() {
+		return modalidadesAtendimento;
+	}
 
-    public DocumentoPublicacao getDocumentoPublicacao() {
-        return documentoPublicacao;
-    }
+	public void setModalidadesAtendimento(List<ModalidadeAtendimento> modalidadesAtendimento) {
+		this.modalidadesAtendimento = modalidadesAtendimento;
+	}
 
-    public void setDocumentoPublicacao(DocumentoPublicacao documentoPublicacao) {
-        this.documentoPublicacao = documentoPublicacao;
-    }
+	public List<InstrumentoRegistro> getInstrumentosRegistro() {
+		return instrumentosRegistro;
+	}
 
-    public List<ModalidadeAtendimento> getModalidadesAtendimento() {
-        return modalidadesAtendimento;
-    }
+	public void setInstrumentosRegistro(List<InstrumentoRegistro> instrumentosRegistro) {
+		this.instrumentosRegistro = instrumentosRegistro;
+	}
 
-    public void setModalidadesAtendimento(List<ModalidadeAtendimento> modalidadesAtendimento) {
-        this.modalidadesAtendimento = modalidadesAtendimento;
-    }
+	public List<AtributoComplementar> getAtributosComplementares() {
+		return atributosComplementares;
+	}
 
-    public List<InstrumentoRegistro> getInstrumentosRegistro() {
-        return instrumentosRegistro;
-    }
+	public void setAtributosComplementares(List<AtributoComplementar> atributosComplementares) {
+		this.atributosComplementares = atributosComplementares;
+	}
 
-    public void setInstrumentosRegistro(List<InstrumentoRegistro> instrumentosRegistro) {
-        this.instrumentosRegistro = instrumentosRegistro;
-    }
+	public String getComplexidade() {
+		return complexidade;
+	}
 
-    public List<AtributoComplementar> getAtributosComplementares() {
-        return atributosComplementares;
-    }
+	public void setComplexidade(String complexidade) {
+		this.complexidade = complexidade;
+	}
 
-    public void setAtributosComplementares(List<AtributoComplementar> atributosComplementares) {
-        this.atributosComplementares = atributosComplementares;
-    }
+	public TipoFinanciamento getTipoFinanciamento() {
+		return tipoFinanciamento;
+	}
 
-    public String getComplexidade() {
-        return complexidade;
-    }
+	public void setTipoFinanciamento(TipoFinanciamento tipoFinanciamento) {
+		this.tipoFinanciamento = tipoFinanciamento;
+	}
 
-    public void setComplexidade(String complexidade) {
-        this.complexidade = complexidade;
-    }
+	public SexoPermitido getSexoPermitido() {
+		return sexoPermitido;
+	}
 
-    public TipoFinanciamento getTipoFinanciamento() {
-        return tipoFinanciamento;
-    }
+	public void setSexoPermitido(SexoPermitido sexoPermitido) {
+		this.sexoPermitido = sexoPermitido;
+	}
 
-    public void setTipoFinanciamento(TipoFinanciamento tipoFinanciamento) {
-        this.tipoFinanciamento = tipoFinanciamento;
-    }
+	public IdadePermitida getIdadeMinimaPermitida() {
+		return idadeMinimaPermitida;
+	}
 
-    public SexoPermitido getSexoPermitido() {
-        return sexoPermitido;
-    }
+	public void setIdadeMinimaPermitida(IdadePermitida idadeMinimaPermitida) {
+		this.idadeMinimaPermitida = idadeMinimaPermitida;
+	}
 
-    public void setSexoPermitido(SexoPermitido sexoPermitido) {
-        this.sexoPermitido = sexoPermitido;
-    }
+	public IdadePermitida getIdadeMaximaPermitida() {
+		return idadeMaximaPermitida;
+	}
 
-    public IdadePermitida getIdadeMinimaPermitida() {
-        return idadeMinimaPermitida;
-    }
+	public void setIdadeMaximaPermitida(IdadePermitida idadeMaximaPermitida) {
+		this.idadeMaximaPermitida = idadeMaximaPermitida;
+	}
 
-    public void setIdadeMinimaPermitida(IdadePermitida idadeMinimaPermitida) {
-        this.idadeMinimaPermitida = idadeMinimaPermitida;
-    }
+	public BigDecimal getValorSH() {
+		return valorSH;
+	}
 
-    public IdadePermitida getIdadeMaximaPermitida() {
-        return idadeMaximaPermitida;
-    }
+	public void setValorSH(BigDecimal valorSH) {
+		this.valorSH = valorSH;
+	}
 
-    public void setIdadeMaximaPermitida(IdadePermitida idadeMaximaPermitida) {
-        this.idadeMaximaPermitida = idadeMaximaPermitida;
-    }
+	public BigDecimal getValorSA() {
+		return valorSA;
+	}
 
-    public BigDecimal getValorSH() {
-        return valorSH;
-    }
+	public void setValorSA(BigDecimal valorSA) {
+		this.valorSA = valorSA;
+	}
 
-    public void setValorSH(BigDecimal valorSH) {
-        this.valorSH = valorSH;
-    }
+	public BigDecimal getValorSP() {
+		return valorSP;
+	}
 
-    public BigDecimal getValorSA() {
-        return valorSA;
-    }
+	public void setValorSP(BigDecimal valorSP) {
+		this.valorSP = valorSP;
+	}
 
-    public void setValorSA(BigDecimal valorSA) {
-        this.valorSA = valorSA;
-    }
+	public String getDescricao() {
+		return descricao;
+	}
 
-    public BigDecimal getValorSP() {
-        return valorSP;
-    }
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
 
-    public void setValorSP(BigDecimal valorSP) {
-        this.valorSP = valorSP;
-    }
+	public DetalheAdicional getDetalheAdicional() {
+		return detalheAdicional;
+	}
 
-    public String getDescricao() {
-        return descricao;
-    }
+	public void setDetalheAdicional(DetalheAdicional detalheAdicional) {
+		this.detalheAdicional = detalheAdicional;
+	}
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public DetalheAdicional getDetalheAdicional() {
-        return detalheAdicional;
-    }
-
-    public void setDetalheAdicional(DetalheAdicional detalheAdicional) {
-        this.detalheAdicional = detalheAdicional;
-    }
-    
-    
 }

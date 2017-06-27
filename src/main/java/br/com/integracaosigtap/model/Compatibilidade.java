@@ -11,30 +11,24 @@ public class Compatibilidade extends Model {
 
 	@XMLAttribute(fieldName = "ns9:CompatibilidadePossivel")
 	private CompatibilidadePossivel compatibilidadePossivel;
-	
-	
+
 	@XMLAttribute(fieldName = "ns9:ProcedimentoPrincipal")
 	private Procedimento procedimentoPrimario;
-	
-	
+
 	@XMLAttribute(fieldName = "ns9:ProcedimentoSecundario")
 	private Procedimento procedimentoSecundario;
-	
+
 	@XMLAttribute(fieldName = "ns9:competenciaInicial")
 	private String competenciaInicial;
-	
+
 	@XMLAttribute(fieldName = "ns9:competenciaFinal")
 	private String competenciaFinal;
-	
+
 	@XMLAttribute(fieldName = "ns9:quantidadePermitida")
 	private Integer quantidadePermitida;
-	
+
 	@XMLAttribute(fieldName = "ns9:DocumentoPublicacao")
 	private DocumentoPublicacao documentoPublicacao;
-
-	public Compatibilidade() {
-
-	}
 
 	public CompatibilidadePossivel getCompatibilidadePossivel() {
 		return compatibilidadePossivel;
