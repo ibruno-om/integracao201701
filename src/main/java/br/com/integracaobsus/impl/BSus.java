@@ -160,96 +160,19 @@ public class BSus implements Barramento {
 	public List<Grupo> pesquisarGrupos() {
 		return null;
 	}
-
-	public List<Procedimento> getDetalharProcedimentos() {
+	
+	
+	public Procedimento getDetalharProcedimentos(){
 		try {
-			XMLInputFactory fabrica = XMLInputFactory.newFactory();
+			
+			String xml = connection.getDetalharProcedimentos(urlProcedimento);
+			
+			SAXParserFactory parserFactor = SAXParserFactory.newInstance();
+			SAXParser parser = parserFactor.newSAXParser();
+			ProcedimentoHandler handler = new ProcedimentoHandler();
+			parser.parse(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)),handler);
 
-			StringReader rs = new StringReader(connection.getDetalharProcedimentos(urlProcedimento));
-			System.out.println(connection.getDetalharProcedimentos(urlProcedimento));
-
-			XMLEventReader reader = fabrica.createXMLEventReader(rs);
-
-			Procedimento procedimento = null;
-			FormaOrganizacao formaOrganizacao = null;
-			Grupo subGrupo = null;
-			Grupo grupo = null;
-
-			Set<Procedimento> procedimentos = new HashSet<Procedimento>();
-
-			while (reader.hasNext()) {
-				XMLEvent event = reader.nextEvent();
-
-				if (event.isStartElement()) {
-					StartElement startElement = event.asStartElement();
-
-					if (startElement.getName().getLocalPart().equals("Procedimento")) {
-						procedimento = new Procedimento();
-					} else if (startElement.getName().getLocalPart().equals("codigo")) {
-						event = reader.nextEvent();
-						procedimento.setCodigo(event.asCharacters().getData());
-					} else if (startElement.getName().getLocalPart().equals("nome")) {
-						event = reader.nextEvent();
-						procedimento.setNome(event.asCharacters().getData());
-					} else if (startElement.getName().getLocalPart().equals("FormaOrganizacao")) {
-
-						formaOrganizacao = new FormaOrganizacao();
-						while (reader.hasNext()) {
-							event = reader.nextEvent();
-							if (event.isStartElement()) {
-								startElement = event.asStartElement();
-								if (startElement.getName().getLocalPart().equals("codigo")) {
-									event = reader.nextEvent();
-									formaOrganizacao.setCodigo(event.asCharacters().getData());
-								} else if (startElement.getName().getLocalPart().equals("nome")) {
-									event = reader.nextEvent();
-									formaOrganizacao.setNome(event.asCharacters().getData());
-								} else if (startElement.getName().getLocalPart().equals("Subgrupo")) {
-
-									subGrupo = new Grupo();
-									while (reader.hasNext()) {
-										event = reader.nextEvent();
-										if (event.isStartElement()) {
-											startElement = event.asStartElement();
-											if (startElement.getName().getLocalPart().equals("codigo")) {
-												event = reader.nextEvent();
-												subGrupo.setCodigo(event.asCharacters().getData());
-											} else if (startElement.getName().getLocalPart().equals("nome")) {
-												event = reader.nextEvent();
-												subGrupo.setNome(event.asCharacters().getData());
-											} else if (startElement.getName().getLocalPart().equals("Subgrupo")) {
-
-												grupo = new Grupo();
-												while (reader.hasNext()) {
-													event = reader.nextEvent();
-													if (event.isStartElement()) {
-														startElement = event.asStartElement();
-														if (startElement.getName().getLocalPart().equals("codigo")) {
-															event = reader.nextEvent();
-															subGrupo.setCodigo(event.asCharacters().getData());
-														} else if (startElement.getName().getLocalPart()
-																.equals("nome")) {
-															event = reader.nextEvent();
-															subGrupo.setNome(event.asCharacters().getData());
-															break;
-														}
-													}
-												}
-												break;
-											}
-										}
-									}
-									break;
-								}
-							}
-						}
-						procedimentos.add(procedimento);
-					}
-				}
-
-			}
-
-			return new ArrayList<Procedimento>(procedimentos);
+			return handler.getProcedimento();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
