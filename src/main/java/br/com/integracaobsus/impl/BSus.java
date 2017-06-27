@@ -1,12 +1,16 @@
 package br.com.integracaobsus.impl;
 
+import java.io.ByteArrayInputStream;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.events.StartElement;
@@ -22,6 +26,7 @@ import br.com.integracaosigtap.model.FormaOrganizacao;
 import br.com.integracaosigtap.model.Grupo;
 import br.com.integracaosigtap.model.InstrumentoRegistro;
 import br.com.integracaosigtap.model.Procedimento;
+import br.com.integracaosigtap.model.handler.CompatibilidadeHandler;
 
 public class BSus implements Barramento {
 
@@ -90,121 +95,17 @@ public class BSus implements Barramento {
 	public List<Compatibilidade> pesquisarCompatibilidades() {
 
 		try {
-			XMLInputFactory factory = XMLInputFactory.newFactory();
+			SAXParserFactory parserFactor = SAXParserFactory.newInstance();
+			SAXParser parser = parserFactor.newSAXParser();
+			CompatibilidadeHandler handler = new CompatibilidadeHandler();
 
-			System.out.println(connection.getPesquisarCompatibilidades(urlCompatibilidade));
-			StringReader rs = new StringReader(connection.getPesquisarCompatibilidades(urlCompatibilidade));
+			String xml = connection.getPesquisarCompatibilidades(urlCompatibilidade);
+			System.out.println(xml);
 
-			XMLEventReader reader = factory.createXMLEventReader(rs);
+			parser.parse(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), handler);
 
-			Compatibilidade compatibilidade = null;
-			
-			CompatibilidadePossivel compatibilidadePossivel = null;
-			InstrumentoRegistro instrumentoPrimario = null;
-			InstrumentoRegistro instrumentoSecundario = null;
-			
-			Procedimento procedimentoPrincipal = null;
-			
-			Set<Compatibilidade> compatibilidades = new HashSet<Compatibilidade>();
+			return handler.getResultList();
 
-			while (reader.hasNext()) {
-				XMLEvent event = reader.nextEvent();
-
-				if (event.isStartElement()) {
-					StartElement startElement = event.asStartElement();
-
-					if (startElement.getName().getLocalPart().equals("Compatibilidade")) {
-						compatibilidade = new Compatibilidade();
-					} else if (startElement.getName().getLocalPart().equals("codigo")) {
-						event = reader.nextEvent();
-						compatibilidade.setCodigo(event.asCharacters().getData());
-					} else if (startElement.getName().getLocalPart().equals("CompatibilidadePossivel")) {
-						compatibilidadePossivel = new CompatibilidadePossivel();
-						
-						while (reader.hasNext()) {
-							event = reader.nextEvent();
-							if (event.isStartElement()) {
-								startElement = event.asStartElement();
-								if (startElement.getName().getLocalPart().equals("codigo")) {
-									event = reader.nextEvent();
-									compatibilidadePossivel.setCodigo(event.asCharacters().getData());
-								} else if (startElement.getName().getLocalPart().equals("InstrumentoRegistroPrincipal")) {
-									instrumentoPrimario = new InstrumentoRegistro();
-									
-									while (reader.hasNext()) {
-										event = reader.nextEvent();
-										if (event.isStartElement()) {
-											startElement = event.asStartElement();
-											if (startElement.getName().getLocalPart().equals("codigo")) {
-												event = reader.nextEvent();
-												instrumentoPrimario.setCodigo(event.asCharacters().getData());
-											} else if (startElement.getName().getLocalPart().equals("nome")) {
-												event = reader.nextEvent();
-												instrumentoPrimario.setNome(event.asCharacters().getData());
-												break;
-											}
-										}
-									}
-									
-									compatibilidadePossivel.setInstrumentoRegistroPrimario(instrumentoPrimario);
-									
-								} else if (startElement.getName().getLocalPart().equals("InstrumentoRegistroSecundario")) {
-									instrumentoSecundario = new InstrumentoRegistro();
-									
-									while (reader.hasNext()) {
-										event = reader.nextEvent();
-										if (event.isStartElement()) {
-											startElement = event.asStartElement();
-											if (startElement.getName().getLocalPart().equals("codigo")) {
-												event = reader.nextEvent();
-												instrumentoSecundario.setCodigo(event.asCharacters().getData());
-											} else if (startElement.getName().getLocalPart().equals("nome")) {
-												event = reader.nextEvent();
-												instrumentoSecundario.setNome(event.asCharacters().getData());
-												break;
-											}
-										}
-									}
-									
-									compatibilidadePossivel.setInstrumentoRegistroSecundario(instrumentoSecundario);
-									
-								} else if (startElement.getName().getLocalPart().equals("tipoCompatibilidade")) {
-									event = reader.nextEvent();
-									compatibilidadePossivel.setTipoCompatibilidade(event.asCharacters().getData());
-									break;
-								}
-							}
-						}
-						
-						compatibilidade.setCompatibilidadePossivel(compatibilidadePossivel);
-						
-					} else if (startElement.getName().getLocalPart().equals("ProcedimentoPrincipal")){
-						
-						procedimentoPrincipal = new Procedimento();
-						
-						while (reader.hasNext()) {
-							event = reader.nextEvent();
-							if (event.isStartElement()) {
-								startElement = event.asStartElement();
-								
-								if (startElement.getName().getLocalPart().equals("codigo")) {
-									event = reader.nextEvent();
-									procedimentoPrincipal.setCodigo(event.asCharacters().getData());
-								} else if (startElement.getName().getLocalPart().equals("nome")) {
-									event = reader.nextEvent();
-									procedimentoPrincipal.setNome(event.asCharacters().getData());
-								} 
-							}
-						}
-						
-						compatibilidade.setProcedimentoPrimario(procedimentoPrincipal);
-						compatibilidades.add(compatibilidade);
-					}
-				}
-
-			}
-
-			return new ArrayList<Compatibilidade>(compatibilidades);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -299,7 +200,7 @@ public class BSus implements Barramento {
 							}
 						}
 
-						//subGrupo.setGrupo(grupo);
+						// subGrupo.setGrupo(grupo);
 					}
 				}
 
@@ -316,9 +217,8 @@ public class BSus implements Barramento {
 	public List<Grupo> pesquisarGrupos() {
 		return null;
 	}
-	
-	
-	public List<Procedimento> getDetalharProcedimentos(){
+
+	public List<Procedimento> getDetalharProcedimentos() {
 		try {
 			XMLInputFactory fabrica = XMLInputFactory.newFactory();
 
@@ -331,7 +231,7 @@ public class BSus implements Barramento {
 			FormaOrganizacao formaOrganizacao = null;
 			Grupo subGrupo = null;
 			Grupo grupo = null;
-			
+
 			Set<Procedimento> procedimentos = new HashSet<Procedimento>();
 
 			while (reader.hasNext()) {
@@ -349,7 +249,7 @@ public class BSus implements Barramento {
 						event = reader.nextEvent();
 						procedimento.setNome(event.asCharacters().getData());
 					} else if (startElement.getName().getLocalPart().equals("FormaOrganizacao")) {
-						
+
 						formaOrganizacao = new FormaOrganizacao();
 						while (reader.hasNext()) {
 							event = reader.nextEvent();
@@ -361,8 +261,8 @@ public class BSus implements Barramento {
 								} else if (startElement.getName().getLocalPart().equals("nome")) {
 									event = reader.nextEvent();
 									formaOrganizacao.setNome(event.asCharacters().getData());
-								} else if (startElement.getName().getLocalPart().equals("Subgrupo")){
-									
+								} else if (startElement.getName().getLocalPart().equals("Subgrupo")) {
+
 									subGrupo = new Grupo();
 									while (reader.hasNext()) {
 										event = reader.nextEvent();
@@ -374,8 +274,8 @@ public class BSus implements Barramento {
 											} else if (startElement.getName().getLocalPart().equals("nome")) {
 												event = reader.nextEvent();
 												subGrupo.setNome(event.asCharacters().getData());
-											} else if (startElement.getName().getLocalPart().equals("Subgrupo")){
-												
+											} else if (startElement.getName().getLocalPart().equals("Subgrupo")) {
+
 												grupo = new Grupo();
 												while (reader.hasNext()) {
 													event = reader.nextEvent();
@@ -384,7 +284,8 @@ public class BSus implements Barramento {
 														if (startElement.getName().getLocalPart().equals("codigo")) {
 															event = reader.nextEvent();
 															subGrupo.setCodigo(event.asCharacters().getData());
-														} else if (startElement.getName().getLocalPart().equals("nome")) {
+														} else if (startElement.getName().getLocalPart()
+																.equals("nome")) {
 															event = reader.nextEvent();
 															subGrupo.setNome(event.asCharacters().getData());
 															break;
