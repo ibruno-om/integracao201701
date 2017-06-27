@@ -1,17 +1,22 @@
 package br.com.integracaosigtap.model;
 
+import br.com.integracaosigtap.model.handler.annotation.XMLAttribute;
+import br.com.integracaosigtap.model.handler.annotation.XMLClass;
+
 /**
  * Created by astr1x on 21/05/17.
  */
+@XMLClass(nodeName = "ns9:CompatibilidadePossivel", codigo = "com1:codigo")
 public class CompatibilidadePossivel extends Model {
 
+	@XMLAttribute(fieldName = "com1:tipoCompatibilidade")
 	private String tipoCompatibilidade;
+	
+	@XMLAttribute(fieldName = "com1:InstrumentoRegistroPrincipal")
 	private InstrumentoRegistro instrumentoRegistroPrimario;
+	
+	@XMLAttribute(fieldName = "com1:InstrumentoRegistroSecundario")
 	private InstrumentoRegistro instrumentoRegistroSecundario;
-
-	public CompatibilidadePossivel() {
-
-	}
 
 	/**
 	 * @return
@@ -103,7 +108,9 @@ public class CompatibilidadePossivel extends Model {
 		return super.equals(obj);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -112,7 +119,5 @@ public class CompatibilidadePossivel extends Model {
 				+ instrumentoRegistroPrimario + ", instrumentoRegistroSecundario=" + instrumentoRegistroSecundario
 				+ ", toString()=" + super.toString() + "]";
 	}
-	
-	
 
 }
