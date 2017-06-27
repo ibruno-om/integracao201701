@@ -26,6 +26,7 @@ import br.com.integracaosigtap.model.Grupo;
 import br.com.integracaosigtap.model.InstrumentoRegistro;
 import br.com.integracaosigtap.model.Procedimento;
 import br.com.integracaosigtap.model.SubGrupo;
+import br.com.integracaosigtap.model.handler.BaseProcedimentoHandler;
 import br.com.integracaosigtap.model.handler.CompatibilidadeHandler;
 import br.com.integracaosigtap.model.handler.GrupoHandler;
 import br.com.integracaosigtap.model.handler.ProcedimentoHandler;
@@ -57,37 +58,18 @@ public class BSus implements Barramento {
 
 	public List<BaseProcedimento> pesquisarProcedimentos() {
 		try {
-			XMLInputFactory fabrica = XMLInputFactory.newFactory();
 
-			StringReader rs = new StringReader(connection.getPesquisarProcedimentos(urlProcedimento));
-			System.out.println(connection.getPesquisarProcedimentos(urlProcedimento));
+			SAXParserFactory parserFactor = SAXParserFactory.newInstance();
+			SAXParser parser = parserFactor.newSAXParser();
+			BaseProcedimentoHandler handler = new BaseProcedimentoHandler();
 
-			XMLEventReader reader = fabrica.createXMLEventReader(rs);
+			String xml = connection.getPesquisarProcedimentos(urlProcedimento);
+			System.out.println(xml);
 
-			BaseProcedimento procedimento = null;
-			Set<BaseProcedimento> procedimentos = new HashSet<BaseProcedimento>();
+			parser.parse(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), handler);
 
-			while (reader.hasNext()) {
-				XMLEvent event = reader.nextEvent();
+			return handler.getResultList();
 
-				if (event.isStartElement()) {
-					StartElement startElement = event.asStartElement();
-
-					if (startElement.getName().getLocalPart().equals("BaseProcedimento")) {
-						procedimento = new BaseProcedimento();
-					} else if (startElement.getName().getLocalPart().equals("codigo")) {
-						event = reader.nextEvent();
-						procedimento.setCodigo(event.asCharacters().getData());
-					} else if (startElement.getName().getLocalPart().equals("nome")) {
-						event = reader.nextEvent();
-						procedimento.setNome(event.asCharacters().getData());
-						procedimentos.add(procedimento);
-					}
-				}
-
-			}
-
-			return new ArrayList<BaseProcedimento>(procedimentos);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -119,7 +101,7 @@ public class BSus implements Barramento {
 
 	public List<Grupo> listarGrupos() {
 		try {
-			
+
 			SAXParserFactory parserFactor = SAXParserFactory.newInstance();
 			SAXParser parser = parserFactor.newSAXParser();
 			GrupoHandler handler = new GrupoHandler();
@@ -130,7 +112,7 @@ public class BSus implements Barramento {
 			parser.parse(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), handler);
 
 			return handler.getResultList();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -160,17 +142,16 @@ public class BSus implements Barramento {
 	public List<Grupo> pesquisarGrupos() {
 		return null;
 	}
-	
-	
-	public Procedimento getDetalharProcedimentos(){
+
+	public Procedimento getDetalharProcedimentos() {
 		try {
-			
+
 			String xml = connection.getDetalharProcedimentos(urlProcedimento);
-			
+
 			SAXParserFactory parserFactor = SAXParserFactory.newInstance();
 			SAXParser parser = parserFactor.newSAXParser();
 			ProcedimentoHandler handler = new ProcedimentoHandler();
-			parser.parse(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)),handler);
+			parser.parse(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), handler);
 
 			return handler.getProcedimento();
 		} catch (Exception e) {
@@ -185,6 +166,8 @@ public class BSus implements Barramento {
 		try {
 			XMLInputFactory factory = XMLInputFactory.newFactory();
 
+			System.out.println(connection.getListarCompatibilidadesPossiveis(urlCompatibilidadePossivel));
+			
 			StringReader rs = new StringReader(
 					connection.getListarCompatibilidadesPossiveis(urlCompatibilidadePossivel));
 

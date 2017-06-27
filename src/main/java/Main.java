@@ -1,5 +1,9 @@
+import java.util.List;
+
 import br.com.integracaobsus.impl.BSus;
+import br.com.integracaosigtap.model.BaseProcedimento;
 import br.com.integracaosigtap.model.Compatibilidade;
+import br.com.integracaosigtap.model.CompatibilidadePossivel;
 import br.com.integracaosigtap.model.Grupo;
 import br.com.integracaosigtap.model.SubGrupo;
 
@@ -23,6 +27,14 @@ public class Main {
 
 		for (Compatibilidade compatibilidade : bsus.pesquisarCompatibilidades()) {
 			System.out.println(compatibilidade);
+		}
+		
+		for (BaseProcedimento procedimento : bsus.pesquisarProcedimentos() ) {
+			System.out.println(procedimento);
+		}
+		
+		for (CompatibilidadePossivel compatibilidadePossivel : bsus.listarCompatibilidadesPossiveis()) {
+			System.out.println(compatibilidadePossivel);
 		}
 
 	}

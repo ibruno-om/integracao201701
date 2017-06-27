@@ -6,7 +6,7 @@ import br.com.integracaosigtap.model.handler.annotation.XMLClass;
 /**
  * Created by astr1x on 21/05/17.
  */
-@XMLClass(nodeName = "ns9:CompatibilidadePossivel", codigo = "com1:codigo")
+@XMLClass(nodeName = "com1:CompatibilidadePossivel", codigo = "com1:codigo")
 public class CompatibilidadePossivel extends Model {
 
 	@XMLAttribute(fieldName = "com1:tipoCompatibilidade")
