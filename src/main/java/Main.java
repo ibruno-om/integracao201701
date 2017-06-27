@@ -7,7 +7,7 @@ import javax.xml.parsers.SAXParserFactory;
 import br.com.integracaobsus.impl.BSus;
 import br.com.integracaosigtap.connect.ConnectionSUS;
 import br.com.integracaosigtap.model.Compatibilidade;
-import br.com.integracaosigtap.model.handler.CompatibilidadeHandler;
+import br.com.integracaosigtap.model.handler.GrupoHandler;
 
 /**
  * Created by astr1x on 16/04/17.
@@ -21,16 +21,16 @@ public class Main {
 
 		SAXParserFactory parserFactor = SAXParserFactory.newInstance();
 		SAXParser parser = parserFactor.newSAXParser();
-		CompatibilidadeHandler handler = new CompatibilidadeHandler();
+		GrupoHandler handler = new GrupoHandler();
 
 		String xml = new ConnectionSUS()
-				.getPesquisarCompatibilidades("https://servicoshm.saude.gov.br/sigtap/CompatibilidadeService/v1");
+				.getListarGrupos("https://servicoshm.saude.gov.br/sigtap/NivelAgregacaoService/v1");
 		
 		System.out.println(xml);
 
 		parser.parse(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), handler);
 
-		for (Compatibilidade emp : handler.getResultList()) {
+		for (Compatibilidade emp : bsus.pesquisarCompatibilidades()) {
 			System.out.println(emp);
 		}
 

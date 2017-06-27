@@ -72,7 +72,6 @@ public abstract class AbstractXMLHandler<T extends Model> extends DefaultHandler
 			if (field.getType().getAnnotation(XMLClass.class) != null) {
 				try {
 					Object newInstance = field.getType().newInstance();
-					System.out.println(field.getType().getName());
 					field.setAccessible(true);
 					field.set(model, newInstance);
 					setInstanceXML(newInstance);
