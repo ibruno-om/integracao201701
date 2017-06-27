@@ -22,13 +22,13 @@ import br.com.integracaosigtap.connect.ConnectionSUS;
 import br.com.integracaosigtap.model.BaseProcedimento;
 import br.com.integracaosigtap.model.Compatibilidade;
 import br.com.integracaosigtap.model.CompatibilidadePossivel;
-import br.com.integracaosigtap.model.FormaOrganizacao;
 import br.com.integracaosigtap.model.Grupo;
 import br.com.integracaosigtap.model.InstrumentoRegistro;
 import br.com.integracaosigtap.model.Procedimento;
 import br.com.integracaosigtap.model.SubGrupo;
 import br.com.integracaosigtap.model.handler.CompatibilidadeHandler;
 import br.com.integracaosigtap.model.handler.GrupoHandler;
+import br.com.integracaosigtap.model.handler.ProcedimentoHandler;
 import br.com.integracaosigtap.model.handler.SubGrupoHandler;
 
 public class BSus implements Barramento {

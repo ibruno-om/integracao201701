@@ -30,7 +30,7 @@ public class ProcedimentoHandler extends DefaultHandler {
 			procedimento.getFormaOrganizacao().setSubGrupo(new Grupo());
 			break;
 		case "ns2:Grupo":
-			procedimento.getFormaOrganizacao().getSubGrupo().setGrupo(new Grupo());
+			//procedimento.getFormaOrganizacao().getSubGrupo().setGrupo(new Grupo());
 			break;
 		}
 	}
@@ -57,10 +57,10 @@ public class ProcedimentoHandler extends DefaultHandler {
 			procedimento.getFormaOrganizacao().getSubGrupo().setNome(content);
 			break;
 		case "grup:codigo":
-			procedimento.getFormaOrganizacao().getSubGrupo().getGrupo().setCodigo(content);
+			//procedimento.getFormaOrganizacao().getSubGrupo().getGrupo().setCodigo(content);
 			break;
 		case "grup:nome":
-			procedimento.getFormaOrganizacao().getSubGrupo().getGrupo().setNome(content);
+			//procedimento.getFormaOrganizacao().getSubGrupo().getGrupo().setNome(content);
 			break;
 		}
 	}
