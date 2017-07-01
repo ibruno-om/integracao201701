@@ -1,0 +1,8 @@
+addons:
+  sonarcloud:
+    organization: "manutencao14764" # the key of the org you chose at step #3
+    token:
+      secure: d785bef5c3d1ef98c91ad6643c6abe8ba2ddc417 # encrypted value of your token
+script:
+  # other script steps might be done before running the actual analysis
+  - sonar-scanner
