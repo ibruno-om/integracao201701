@@ -3,7 +3,7 @@ sudo: false
 install: true
 addons:
   sonarcloud:
-    organization: "manutencao14764"
+    organization: "manutencao14764:master"
     token:
       secure: "3XeeNc6hsgsPutz4i1G4"
 jdk:
