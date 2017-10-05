@@ -1,8 +1,13 @@
+language: java
+sudo: false
+install: true
 addons:
   sonarcloud:
-    organization: "manutencao14764" # the key of the org you chose at step #3
+    organization: "manutencao14764"
     token:
-      secure: d785bef5c3d1ef98c91ad6643c6abe8ba2ddc417 # encrypted value of your token
+      secure: "3XeeNc6hsgsPutz4i1G4"
+jdk:
+  - oraclejdk8
 script:
   # other script steps might be done before running the actual analysis
   - sonar-scanner
